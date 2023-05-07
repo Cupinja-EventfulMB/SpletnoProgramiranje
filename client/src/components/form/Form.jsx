@@ -10,6 +10,7 @@ const registerSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
   password: yup.string().required("Password is required"),
   confirmPassword: yup.string().required("Confirm Password is required"),
+  phoneNumber: yup.string(),
 });
 
 const loginSchema = yup.object().shape({
@@ -22,6 +23,10 @@ const initialValuesRegister = {
   email: "",
   password: "",
   confirmPassword: "",
+  phoneNumber: "",
+  dateOfBirth: "",
+  address: "",
+
 };
 
 const initialValuesLogin = {
@@ -64,9 +69,13 @@ const Form = ({ pageType }) => {
         body: JSON.stringify(values),
       }
     );
+    const res = await loggedInResponse;
+    console.log(res.status)
     const loggedIn = await loggedInResponse.json();
+
+   
     onSubmitProps.resetForm();
-    if (loggedIn) {
+    if (res.status == 200) {
       dispatch(
         loginSuccess({
           user: loggedIn.user,
@@ -136,6 +145,36 @@ const Form = ({ pageType }) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.confirmPassword}
+              />
+              <input
+                type="text"
+                name="phoneNumber"
+                placeholder="Phone number"
+                className="border-[1px] border-gray-300 rounded-md p-2 mb-2"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.phoneNumber}
+              />
+              <label htmlFor="dateOfBirth" className="block font-medium mb-1 text-gray-400">Date of Birth</label>
+                <input
+                  type="date"
+                  id="dateOfBirth"
+                  name="dateOfBirth"
+                  className="border-[1px] border-gray-300 rounded-md p-2 mb-2 text-gray-400"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.dateOfBirth}
+                  min="1900-01-01"
+                  max="2023-12-31"
+                />
+              <input
+                type="text"
+                name="address"
+                placeholder="Address"
+                className="border-[1px] border-gray-300 rounded-md p-2 mb-2"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.address}
               />
             </>
           )}

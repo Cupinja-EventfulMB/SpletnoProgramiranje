@@ -15,7 +15,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <div className="pt-20">
-        {user._id}
+         {/* User ID: {user._id} */}
         {token}
           <Routes>
             <Route path="/" element={<LandingPage />} />

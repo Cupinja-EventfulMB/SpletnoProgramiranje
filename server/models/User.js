@@ -4,6 +4,7 @@ const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    unique: true,
     min: 3,
     max: 20,
   },
@@ -20,6 +21,27 @@ const UserSchema = new mongoose.Schema({
     required: true,
     min: 4,
   },
+
+  phoneNumber: {
+    type: String,
+    required: false,
+    max: 15,
+  },
+
+  dateOfBirth: {
+    type: Date,
+    required: false,
+  },
+ 
+  IPaddress: {
+    type: String,
+    required: false,
+  },   
+
+  address: {
+    type: String,
+    required: false,
+  }  
 
 });
 
