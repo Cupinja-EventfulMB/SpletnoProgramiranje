@@ -98,13 +98,14 @@ const Form = ({ pageType }) => {
         setFieldValue,
         resetForm,
       }) => (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="flex flex-col">
           {isRegister && (
             <>
               <input
                 type="text"
                 name="name"
                 placeholder="Name"
+                className="border-[1px] border-gray-300 rounded-md p-2 mb-2"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.name}
@@ -113,6 +114,7 @@ const Form = ({ pageType }) => {
                 type="email"
                 name="email"
                 placeholder="Email"
+                className="border-[1px] border-gray-300 rounded-md p-2 mb-2"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.email}
@@ -121,6 +123,7 @@ const Form = ({ pageType }) => {
                 type="password"
                 name="password"
                 placeholder="Password"
+                className="border-[1px] border-gray-300 rounded-md p-2 mb-2"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.password}
@@ -129,6 +132,7 @@ const Form = ({ pageType }) => {
                 type="password"
                 name="confirmPassword"
                 placeholder="Confirm Password"
+                className="border-[1px] border-gray-300 rounded-md p-2 mb-2"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.confirmPassword}
@@ -141,6 +145,7 @@ const Form = ({ pageType }) => {
                 type="email"
                 name="email"
                 placeholder="Email"
+                className="border-[1px] border-gray-300 rounded-md p-2 mb-2"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.email}
@@ -149,13 +154,14 @@ const Form = ({ pageType }) => {
                 type="password"
                 name="password"
                 placeholder="Password"
+                className="border-[1px] border-gray-300 rounded-md p-2 mb-2"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.password}
               />
             </>
           )}
-          <div>
+          <div className="flex justify-between items-center">
             <Button
               text={isLogin ? "Login" : "Register"}
               onClick={() => handleFormSubmit(values)}

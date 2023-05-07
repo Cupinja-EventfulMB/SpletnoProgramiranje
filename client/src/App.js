@@ -14,9 +14,9 @@ function App() {
     <>
       <BrowserRouter>
         <Navbar />
-        <div>
-        {user._id} {/* tak dobis userID */}
-        {token} {/* tak dobis token */}
+        <div className="pt-20">
+        {user._id}
+        {token}
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
