@@ -69,7 +69,7 @@ import authRoute from "./routes/authRoute.js";
 import eventRoute from "./routes/eventRoute.js";
 import institutionRoute from "./routes/institutionRoute.js";
 import userRoute from "./routes/userRoute.js";
-import geoqueriesRoute from "./routes/geoqueriesRoute.js"
+import geoqueriesRoute from "./routes/geoqueries.js";
 
 
 app.use("/api/auth", authRoute);
