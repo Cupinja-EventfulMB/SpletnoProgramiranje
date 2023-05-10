@@ -7,6 +7,9 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
+import { createServer } from "http";
+import { Server } from "socket.io";
+
 
 //CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url);
@@ -23,8 +26,34 @@ app.use(express.json());
 app.use(cors());
 app.use("/assets", express.static(path.join(__diraname, "public/assets")));
 
+// SOCKET.IO
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+    }
+  });
+
+  
+io.on("connection", (socket) => {
+  console.log("New client connected");
+
+ 
+    socket.emit("notification", { message: "Hello from the server 😉" });
+
+    socket.on("disconnect", () => {
+      console.log("Client disconnected");
+    });
+});
+
+const PORT = process.env.PORT || 6001;
+httpServer.listen(3002, () => console.log(`Server Port: 3002`));
+
+    
+
 //MOONGOOSE
-const PORT = process.env.PORT || 6001;  //if it doesn't work go to 6001
+
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
