@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Schema } from "mongoose";
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -41,7 +42,28 @@ const UserSchema = new mongoose.Schema({
   address: {
     type: String,
     required: false,
-  }  
+  },
+
+  favoriteCategories: {
+    type: Array,
+    required: false,
+  },
+
+  events: {
+    going: { 
+      type: Schema.Types.ObjectId,
+      ref: "events",
+    },
+    interested: { 
+      type: Schema.Types.ObjectId,
+      ref: "events",
+    },
+  },
+
+  notifications:  [{
+    type: Schema.Types.ObjectId,
+    ref: "notifications",
+  }],
 
 });
 

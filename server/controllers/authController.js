@@ -6,7 +6,7 @@ export const register = async (req, res) => {
   try {
     const { name, email, password, phoneNumber, dateOfBirth, address } = req.body;
     console.log(req.body);
-    const salt = await bcrypt.genSalt(10);
+    const salt = await bcrypt.genSalt(10);  //random salt for encription
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new User({

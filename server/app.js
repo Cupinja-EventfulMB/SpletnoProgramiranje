@@ -24,7 +24,7 @@ app.use(cors());
 app.use("/assets", express.static(path.join(__diraname, "public/assets")));
 
 //MOONGOOSE
-const PORT = process.env.PORT || 6001;
+const PORT = process.env.PORT || 6001;  //if it doesn't work go to 6001
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
