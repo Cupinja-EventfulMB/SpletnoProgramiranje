@@ -8,6 +8,7 @@ import TestComponent from "components/Test";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
 import  useSocket from "hooks/useSocket";
+import Button from "components/Button";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <div className="pt-20">
             {/* User ID: {user._id} */}
             {token}
+            <Button title={"Button"} outline />
             <Routes>
               <Route path="/" element={<LandingPage socket={socket} />} />
               <Route path="/login" element={<LoginPage />} />

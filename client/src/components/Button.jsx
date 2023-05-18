@@ -1,19 +1,25 @@
-const Button = ({ text, onClick, outline, small }) => {
+const Button = ({ title, action, primary, outline, disabled }) => {
   return (
     <button
-      onClick={onClick}
+      onClick={action}
+      disabled={disabled}
       className={`
-        bg-rose-500
-        rounded-md
-        text-white
-        font-semibold
-        hover:bg-rose-400
-        transition
-        duration-150
-        ${small ? "px-4 py-1 text-sm" : "px-6 py-2 text-lg w-full"}
-        `}
+      rounded-full
+      px-4
+      py-[4px]
+      font-semibold
+      hover:opacity-80
+      transition
+      duration-200
+      
+      ${outline && primary ? "border-[2px] border-rose-500 text-gray-800" : ""}
+      ${outline && !primary ? "border-[2px] border-gray-800" : ""}
+      ${!outline && primary ? "bg-rose-500 text-white" : ""}
+      ${disabled && primary ? "bg-rose-500 opacity-80 cursor-not-allowed" : ""}
+
+  `}
     >
-      {text}
+      {title}
     </button>
   );
 };
