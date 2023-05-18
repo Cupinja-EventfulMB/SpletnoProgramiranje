@@ -10,8 +10,8 @@ const Navbar = () => {
 
   
   return (
-    <div className="fixed w-full border-b-[1px] z-10 bg-white shadow-sm">
-      <div className="flex flex-row justify-between px-6 py-4 w-full">
+    <div className="fixed w-full z-10 bg-transparent">
+      <div className="flex flex-row justify-between px-6 py-4 w-full text-white">
         <Link to="/">
           <div>Home</div>
         </Link>

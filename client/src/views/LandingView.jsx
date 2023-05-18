@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 
-const LandingPage = ({socket}) => {
+//COMPONENTS
+import Button from "../components/Button";
+import Gradient from "components/Gradient";
+
+const LandingView = ({ socket }) => {
   useEffect(() => {
     if (socket) {
       socket.on("notification", (data) => {
@@ -14,7 +18,11 @@ const LandingPage = ({socket}) => {
       };
     }
   }, [socket]);
-  return <>HomePage</>;
+  return (
+    <>
+      <Gradient />
+    </>
+  );
 };
 
-export default LandingPage;
+export default LandingView;

@@ -20,12 +20,8 @@ function App() {
   return (
       <>
         <BrowserRouter>
-
           <Navbar />
-          <div className="pt-20">
-            {/* User ID: {user._id} */}
-            {token}
-            <Button title={"Button"} outline />
+          <div>
             <Routes>
               <Route path="/" element={<LandingPage socket={socket} />} />
               <Route path="/login" element={<LoginPage />} />
