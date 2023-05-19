@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import Button from "../components/Button";
 import EventCardContainer from "components/EventCardContainer";
 import Gradient from "components/Gradient";
+import Search from "components/Search";
 
 const events = [
   {
@@ -39,8 +40,9 @@ const LandingView = ({ socket }) => {
   return (
     <>
       <Gradient />
-
+    
       <div className="container mx-auto">
+        <Search />
         <EventCardContainer events={events} title={"Trending"} />
         <EventCardContainer events={events} title={"Today in Maribor"} />
         <EventCardContainer events={events} title={"Upcoming"} />
