@@ -5,7 +5,7 @@ const EventCardContainer = ({ events, title }) => {
       <h1 className="text-2xl font-semibold py-4">{title}</h1>
       <div className="w-full flex flex-row gap-8">
         {events.map((event) => (
-          <EventCard key={event.id} event={event} />
+          <EventCard key={event._id} event={event} />
         ))}
       </div>
     </>
