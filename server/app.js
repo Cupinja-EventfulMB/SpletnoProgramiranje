@@ -67,6 +67,7 @@ mongoose
 //ROUTING
 import authRoute from "./routes/authRoute.js";
 import eventRoute from "./routes/eventRoute.js";
+import locationRoute from "./routes/locationRoute.js";
 import institutionRoute from "./routes/institutionRoute.js";
 import userRoute from "./routes/userRoute.js";
 import geoqueriesRoute from "./routes/geoqueries.js";
@@ -74,6 +75,7 @@ import geoqueriesRoute from "./routes/geoqueries.js";
 
 app.use("/api/auth", authRoute);
 app.use("/api/event", eventRoute);
+app.use("/api/location", locationRoute)
 app.use("/api/institution", institutionRoute);
 app.use("/api/user", userRoute);
 app.use("/api/geoqueries", geoqueriesRoute);
