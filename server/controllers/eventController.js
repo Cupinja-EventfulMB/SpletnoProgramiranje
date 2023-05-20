@@ -2,7 +2,7 @@ import Event from '../models/Event.js';
 
 export const getAll = async (req, res) => {
     try {
-        const events = await Event.find();
+        const events = await Event.find().populate('location');
         res.status(200).json(events);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -40,8 +40,8 @@ export const getOne = async (req, res) => {
 }
 
 export const create = async (req, res) => {
-    const { name, institution, location, images, description, category, going, interested, duration, date } = req.body;
-    const event = { name, institution, location, images, description, category, going, interested, duration, date };
+    const { title, date, location } = req.body;
+    const event = { title, date, location };
     const newEvent = new Event(event);
     try {
         await newEvent.save();
@@ -53,22 +53,15 @@ export const create = async (req, res) => {
 
 export const update = async (req, res) => {
     const { id } = req.params;
-    const { name, institution, location, images, description, category, going, interested, duration, date } = req.body;
+    const { title, date, location } = req.body;
 
     try {
         const event = await Event.findById(id);
 
         if (event) {
-            event.name = name;
-            event.institution = institution;
-            event.location = location;
-            event.images = images;
-            event.description = description;
-            event.category = category;
-            event.going = going;
-            event.interested = interested;
-            event.duration = duration;
+            event.title = title;
             event.date = date;
+            event.location = location;
 
             await event.save();
             res.status(200).json(event);
