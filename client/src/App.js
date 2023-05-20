@@ -5,7 +5,7 @@ import RegisterPage from "views/RegisterView";
 import { useSelector } from "react-redux";
 import Navbar from "components/Navbar";
 import TestComponent from "components/Test";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import  useSocket from "hooks/useSocket";
 import Button from "components/Button";
