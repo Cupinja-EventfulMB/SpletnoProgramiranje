@@ -27,7 +27,23 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/test-db-data" element={<TestingDB />} />
-
+              {user && user.admin ? (
+                <>
+                  <Route path="/admin-dashboard" element={<AdminView />} />
+                  <Route path="/admin-events" element={<AdminEventView />} />
+                  <Route path="/admin-institutions" element={<AdminInstitutionView />} />
+                  <Route path="/admin-users" element={<AdminUserView />} />
+                </>
+              ) : (
+                <>
+                // Non-admin users will be navigated to the home route
+                  <Route path="/admin-dashboard" element={<Navigate to="/" />} />
+                  <Route path="/admin-events" element={<Navigate to="/" />} />
+                  <Route path="/admin-institutions" element={<Navigate to="/" />} />
+                  <Route path="/admin-users" element={<Navigate to="/" />} />
+                </>
+              )}
+              
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>
