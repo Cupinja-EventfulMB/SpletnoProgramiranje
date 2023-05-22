@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import  useSocket from "hooks/useSocket";
 import Button from "components/Button";
-
+import TestingDB from "views/TestingDB";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -26,6 +26,7 @@ function App() {
               <Route path="/" element={<LandingPage socket={socket} />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/test-db-data" element={<TestingDB />} />
 
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
