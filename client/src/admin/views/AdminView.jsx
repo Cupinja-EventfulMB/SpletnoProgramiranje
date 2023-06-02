@@ -2,12 +2,12 @@ import React from 'react'
 
 //COMPONENTS 
 import Button from "../../components/form/Button";
-import AdminHero from 'admin/components/AdminHero';
+import AdminHero from 'admin/components/AdminGradient';
 import AdminOptionsCard from 'admin/components/AdminOptionsCard';
 
 const cardsData = [
-  { title: 'Edit institutions', link: '/admin-institutions', image: "images/institution.webp" },
-  { title: 'Edit events', link: '/admin-events', image: "images/event.png" },
+  { title: 'Edit institutions', link: '/admin-institutions', image: "images/institution.jpg" },
+  { title: 'Edit events', link: '/admin-events', image: "images/events.jpg" },
   { title: 'Edit users', link: '/admin-users', image: "images/users.jpg" },
 ];
 

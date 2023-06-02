@@ -39,17 +39,18 @@ const LandingView = ({ socket }) => {
   }, [socket]);
   return (
     <>
-      <Gradient/>
+      <Gradient title={"Welcome to the Events App"}
+      subtitle={"Welcome to the Events App"}/>
       <div className="container mx-auto">
         <Search />
       </div>
-      <div className="container mx-auto h-[600px] flex flex-row py-12">
-        <div className="w-4/6 px-8 py-2 overflow-y-auto" id="events">
-          <EventCardContainer events={events} max={4} title={"Trending"} />
+      <div className="container mx-auto h-[600px] flex flex-row py-2">
+      <div className="w-4/6 py-1 overflow-y-auto" id="events">
+          <EventCardContainer events={events} max={8} title={"Trending"} />
           <EventCardContainer events={events} max={4} title={"Popular"} />
           <EventCardContainer events={events} max={4} title={"Other"} />
         </div>
-        <div className="w-2/6 bg-blue-300 sticky sm:hidden md:inline-flex">
+        <div className="w-2/6 bg-blue-300 sticky outline: sm:hidden md:inline-flex">
           <Map events={events} />
         </div>
       </div>

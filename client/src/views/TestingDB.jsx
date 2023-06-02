@@ -39,8 +39,7 @@ const TestingDB = ({socket}) => {
                 <Search/>
                 <MapMaribor/>
                 <EventCardContainer events={events} title={"Trending"}  max={6}/>
-                <EventCardContainer events={events} title={"Today in Maribor"}  max={6}/>
-                <EventCardContainer events={events} title={"Upcoming"}  max={6}/>
+                <EventCardContainer events={events} title={"This month"}  max={6}/>
             </div>
         </>
     );

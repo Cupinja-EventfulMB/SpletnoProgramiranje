@@ -4,7 +4,7 @@ import Button from "../form/Button";
 const EventCard = ({ event }) => {
   console.log(event._id);
   return (
-    <div className="relative shadow-md rounded-2xl w-80 h-60 bg-white hover:shadow-xl transition duration-200 group hover:scale-110">
+    <div className="relative shadow-md rounded-2xl w-96 h-36 bg-white hover:shadow-l transition duration-200 group hover:scale-105">
       <img
         src={event.img_url}
         alt=""
