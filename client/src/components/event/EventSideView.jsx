@@ -1,7 +1,7 @@
 import useEventPopup from "hooks/useEventPopup";
 import React, { useCallback, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import Button from "components/Button";
+import Button from "components/form/Button";
 import axios from "axios";
 import { useSelector } from "react-redux";
 

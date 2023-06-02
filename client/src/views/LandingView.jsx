@@ -1,56 +1,28 @@
 import React, { useEffect } from "react";
 
 //HOOKS
-import useEventPopup from "hooks/useEventPopup";
+import useEventPpopup from "hooks/useEventPopup";
 
 //COMPONENTS
-import EventCardContainer from "components/EventCardContainer";
+import EventCardContainer from "components/event/EventCardContainer";
 import Gradient from "components/Gradient";
 import Search from "components/Search";
-import EventSideView from "components/EventSideView";
+import Map from "components/Map";
 
-const events = [
-  {
-    _id: "6468c08ca8f43c689aa7262b",
-    name: "Event 1",
-    date: "3 May 2023",
-    image:
-      "https://content.eventim.com/static/uploaded/at/p/b/h/g/pbhg_960_360.webp",
-  },
-  {
-    _id: 2,
-    name: "Event 2",
-    date: "8 May 2023",
-    image:
-      "https://content.eventim.com/static/uploaded/at/x/i/x/u/xixu_960_360.webp",
-  },
-  {
-    _id: 3,
-    name: "Event 3",
-    date: "10 May 2023",
-    image:
-      "https://content.eventim.com/static/uploaded/at/p/b/h/g/pbhg_960_360.webp",
-  },
-  {
-    _id: 4,
-    name: "Event 4",
-    date: "12 May 2023",
-    image:
-      "https://content.eventim.com/static/uploaded/at/x/i/x/u/xixu_960_360.webp",
-  },
-  {
-    _id: 5,
-    name: "Event 5",
-    date: "15 May 2023",
-    image:
-      "https://content.eventim.com/static/uploaded/at/p/b/h/g/pbhg_960_360.webp",
-  },
-];
+//REDUX
+import { useSelector } from "react-redux";
+
+import axios from "axios";
 
 const LandingView = ({ socket }) => {
-  const eventPopup = useEventPopup();
+  const eventPopup = useEventPpopup();
+  const [events, setEvents] = React.useState([]);
 
-  const [selectedEvent, setSelectedEvent] = React.useState(null);
+  useEffect(() => {
+    axios.get("http://localhost:3001/api/event").then((res) => {
+      setEvents(res.data);
+    });
+  }, []);
 
   useEffect(() => {
     if (socket) {
@@ -67,17 +39,20 @@ const LandingView = ({ socket }) => {
   }, [socket]);
   return (
     <>
-      <Gradient />
-      <EventSideView onClose={eventPopup.onClose} isOpen={eventPopup.isOpen} />
+      <Gradient title={"Welcome to the Events App"}
+      subtitle={"Welcome to the Events App"}/>
       <div className="container mx-auto">
         <Search />
-        <EventCardContainer events={events} title={"Trending"} max={3} />
-        <EventCardContainer
-          events={events}
-          title={"Today in Maribor"}
-          max={3}
-        />
-        <EventCardContainer events={events} title={"Upcoming"} max={3} />
+      </div>
+      <div className="container mx-auto h-[600px] flex flex-row py-2">
+      <div className="w-4/6 py-1 overflow-y-auto" id="events">
+          <EventCardContainer events={events} max={8} title={"Trending"} />
+          <EventCardContainer events={events} max={4} title={"Popular"} />
+          <EventCardContainer events={events} max={4} title={"Other"} />
+        </div>
+        <div className="w-2/6 bg-blue-300 sticky outline: sm:hidden md:inline-flex">
+          <Map events={events} />
+        </div>
       </div>
     </>
   );

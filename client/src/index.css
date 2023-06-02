@@ -11,6 +11,21 @@ body,
   font-family: "Nunito", sans-serif;
 }
 
+body::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   background-color: #f7fafc;
+  -ms-overflow-style: none;  
+  scrollbar-width: none;  
+}
+
+#events::-webkit-scrollbar {
+  display: none;
+}
+
+#events {
+-ms-overflow-style: none;  
+scrollbar-width: none;  
 }

@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
 
 //COMPONENTS
-import Button from "../components/Button";
-import EventCardContainer from "components/EventCardContainer";
+import Button from "components/form/Button";
+import EventCardContainer from "components/event/EventCardContainer";
 import Gradient from "components/Gradient";
 import Search from "components/Search";
 import MapMaribor from "components/MapMaribor"
 
-const LandingView = ({socket}) => {
+const TestingDB = ({socket}) => {
     const [events, setEvents] = useState([])
     useEffect(() => {
         if (socket) {
@@ -24,7 +24,7 @@ const LandingView = ({socket}) => {
     }, [socket]);
 
     useEffect(() => {
-        fetch('http://localhost:3001/api/event', {
+        fetch("http://localhost:3001/api/event", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -38,12 +38,11 @@ const LandingView = ({socket}) => {
             <div className="container mx-auto">
                 <Search/>
                 <MapMaribor/>
-                <EventCardContainer events={events} title={"Trending"}/>
-                <EventCardContainer events={events} title={"Today in Maribor"}/>
-                <EventCardContainer events={events} title={"Upcoming"}/>
+                <EventCardContainer events={events} title={"Trending"}  max={6}/>
+                <EventCardContainer events={events} title={"This month"}  max={6}/>
             </div>
         </>
     );
 };
 
-export default LandingView;
+export default TestingDB;

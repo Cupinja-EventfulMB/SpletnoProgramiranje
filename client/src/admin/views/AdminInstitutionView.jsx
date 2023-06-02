@@ -1,4 +1,4 @@
-import AdminHero from "components/admin/AdminHero";
+import AdminHero from "admin/components/AdminGradient";
 
 const AdminInstitutionView = () => {
     return (

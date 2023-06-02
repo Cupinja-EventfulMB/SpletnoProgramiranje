@@ -1,14 +1,14 @@
 import React from 'react'
 
 //COMPONENTS 
-import Button from "../components/Button";
-import AdminHero from 'components/admin/AdminHero';
-import AdminOptionsCard from 'components/admin/AdminOptionsCard';
+import Button from "../../components/form/Button";
+import AdminHero from 'admin/components/AdminGradient';
+import AdminOptionsCard from 'admin/components/AdminOptionsCard';
 
 const cardsData = [
-  { title: 'Edit institutions', link: '/admin-institutions', image: "images/institution.webp" },
+  { title: 'Edit institutions', link: '/admin-institutions', image: "images/institution.jpg" },
   { title: 'Edit events', link: '/admin-events', image: "images/event.png" },
-  { title: 'Edit users', link: '/admin-users', image: "images/users.jpg" },
+  { title: 'Edit users', link: '/admin-users', image: "images/users.svg" },
 ];
 
 
