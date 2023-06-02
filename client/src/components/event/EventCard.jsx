@@ -1,5 +1,5 @@
 import { BsCalendar4Week } from "react-icons/bs";
-import Button from "./Button";
+import Button from "../Button";
 
 const EventCard = ({ event }) => {
   return (

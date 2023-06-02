@@ -4,10 +4,10 @@ import React, { useEffect } from "react";
 import useEventPopup from "hooks/useEventPopup";
 
 //COMPONENTS
-import EventCardContainer from "components/EventCardContainer";
+import EventCardContainer from "components/event/EventCardContainer";
 import Gradient from "components/Gradient";
 import Search from "components/Search";
-import EventSideView from "components/EventSideView";
+import EventSideView from "components/event/EventSideView";
 
 const events = [
   {

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 
 //COMPONENTS
 import Button from "../components/Button";
-import EventCardContainer from "components/EventCardContainer";
+import EventCardContainer from "components/event/EventCardContainer";
 import Gradient from "components/Gradient";
 import Search from "components/Search";
 import MapMaribor from "components/MapMaribor"
