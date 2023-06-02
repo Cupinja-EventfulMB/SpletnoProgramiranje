@@ -1,4 +1,4 @@
-import { AiFillEdit } from "react-icons/ai";
+import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import Button from "../../components/form/Button";
 
 const UserCard = ({ user }) => {
@@ -18,11 +18,14 @@ const UserCard = ({ user }) => {
 
         {user.admin ? <p>Admin</p> : <p>User</p>}
       </div>
-      <div className="flex flex-col cursor-pointer">
-        <div onClick={() => console.log("click")}>
+      <div className="flex flex-row cursor-pointer">
+        <div className="flex flex-col" onClick={() => console.log("click")}>
           <AiFillEdit size={32} />
         </div>
-      </div>
+        <div className="flex flex-col" onClick={() => console.log("click")}>
+          <AiFillDelete size={32} />
+        </div>
+      </div>    
     </div>
   );
 };

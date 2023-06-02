@@ -1,4 +1,5 @@
-import AdminHero from "../components/AdminGradient";
+import AdminGradient from "../components/AdminGradient";
+import List from "admin/components/List";
 import UserCard from "admin/components/UserCard";
 import React, { useEffect, useState } from "react";
 
@@ -27,11 +28,13 @@ const AdminUserView = () => {
 
   return (
     <>
-      <AdminHero />
+      <AdminGradient />
       <div className="container mx-auto pt-4">
+        <List header={"Users"} onType={handleSearch}>
           {search.map((user) => (
             <UserCard user={user} key={user._id} />
           ))}
+        </List>
       </div>
     </>
   );
