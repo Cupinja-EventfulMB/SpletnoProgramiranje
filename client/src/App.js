@@ -8,7 +8,7 @@ import TestComponent from "components/Test";
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import  useSocket from "hooks/useSocket";
-import Button from "components/Button";
+import Button from "components/form/Button";
 import TestingDB from "views/TestingDB";
 import AdminView from "admin/views/AdminView";
 import AdminEventView from "admin/views/AdminEventView";

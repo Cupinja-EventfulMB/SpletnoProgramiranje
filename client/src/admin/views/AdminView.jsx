@@ -1,7 +1,7 @@
 import React from 'react'
 
 //COMPONENTS 
-import Button from "../../components/Button";
+import Button from "../../components/form/Button";
 import AdminHero from 'admin/components/AdminHero';
 import AdminOptionsCard from 'admin/components/AdminOptionsCard';
 

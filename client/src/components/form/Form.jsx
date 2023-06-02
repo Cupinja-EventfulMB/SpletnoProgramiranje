@@ -3,7 +3,7 @@ import * as yup from "yup";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {loginSuccess} from "state";
-import Button from "components/Button";
+import Button from "components/form/Button";
 
 const registerSchema = yup.object().shape({
     name: yup.string().required("Name is required"),

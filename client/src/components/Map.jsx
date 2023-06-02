@@ -26,7 +26,7 @@ const Map = ({ events }) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {events.map((event) => (
-        <Marker position={[event.location.lat, event.location.lng]}>
+        <Marker position={[46.5547, 15.6459]}>
           <Popup>
             <h3>{event.name}</h3>
           </Popup>

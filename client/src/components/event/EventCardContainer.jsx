@@ -1,11 +1,12 @@
 import EventCard from "./EventCard";
-const EventCardContainer = ({ events, title }) => {
+const EventCardContainer = ({ events, title, max }) => {
+  if (!events) return <div>No events</div>;
   return (
     <>
       <h1 className="text-2xl font-semibold py-4">{title}</h1>
-      <div className="w-full flex flex-row gap-8">
-        {events.map((event) => (
-          <EventCard key={event._id} event={event} />
+      <div className="w-full flex flex-row gap-8 flex-wrap">
+        {events.slice(0, max).map((event) => (
+          <EventCard key={event.id} event={event} />
         ))}
       </div>
     </>

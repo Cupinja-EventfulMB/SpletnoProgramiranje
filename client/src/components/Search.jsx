@@ -1,4 +1,4 @@
-import Button from "./Button";
+import Button from "./form/Button";
 import { BsFillGridFill, BsCalendar4Week } from "react-icons/bs";
 
 const Search = () => {
