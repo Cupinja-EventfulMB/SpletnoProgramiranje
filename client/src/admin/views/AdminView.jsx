@@ -7,8 +7,8 @@ import AdminOptionsCard from 'admin/components/AdminOptionsCard';
 
 const cardsData = [
   { title: 'Edit institutions', link: '/admin-institutions', image: "images/institution.jpg" },
-  { title: 'Edit events', link: '/admin-events', image: "images/events.jpg" },
-  { title: 'Edit users', link: '/admin-users', image: "images/users.jpg" },
+  { title: 'Edit events', link: '/admin-events', image: "images/event.png" },
+  { title: 'Edit users', link: '/admin-users', image: "images/users.svg" },
 ];
 
 
