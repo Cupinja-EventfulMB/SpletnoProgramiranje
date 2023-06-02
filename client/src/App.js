@@ -10,6 +10,10 @@ import io from "socket.io-client";
 import  useSocket from "hooks/useSocket";
 import Button from "components/Button";
 import TestingDB from "views/TestingDB";
+import AdminView from "views/AdminView";
+import AdminEventView from "views/AdminEventView";
+import AdminInstitutionView from "views/AdminInstitutionView";
+import AdminUserView from "views/AdminUserView";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -43,7 +47,7 @@ function App() {
                   <Route path="/admin-users" element={<Navigate to="/" />} />
                 </>
               )}
-              
+
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>

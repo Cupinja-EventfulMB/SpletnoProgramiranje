@@ -1,6 +1,6 @@
 import {create} from "zustand"
 
-const useEventPpopup = create((set) => ({
+const useEventPopup = create((set) => ({
     event: null,
     isOpen: false,
     onOpen: () => set({isOpen: true}),
@@ -8,4 +8,4 @@ const useEventPpopup = create((set) => ({
     setEvent: (event) => set({event})
 }))
 
-export default useEventPpopup;
+export default useEventPopup;

@@ -4,7 +4,7 @@ const AdminUserView = () => {
     return (
       <>
         <AdminHero />
-        <p>Users</p>
+        <p>Edit or delete users</p>
       </>
     )
   }

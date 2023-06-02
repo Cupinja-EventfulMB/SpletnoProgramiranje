@@ -9,7 +9,7 @@ const EventSideView = ({ isOpen, onClose }) => {
   const eventPopup = useEventPopup();
   const event = eventPopup.event;
 
-  const { user } = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth);
 
   const [showPopup, setShowPopup] = useState(true);
 

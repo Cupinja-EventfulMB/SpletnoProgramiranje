@@ -52,7 +52,7 @@ export const update = async (req, res) => {
     try {
         const user = await User.findById(id);
 
-        if (event) {
+        if (user) {
             user.name = name;
             user.email = email;
             user.phoneNumber = phoneNumber;
