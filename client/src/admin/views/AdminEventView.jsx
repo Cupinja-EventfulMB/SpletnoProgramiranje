@@ -1,4 +1,4 @@
-import AdminHero from "components/admin/AdminHero";
+import AdminHero from "admin/components/AdminHero";
 
 const AdminEventView = () => {
     return (

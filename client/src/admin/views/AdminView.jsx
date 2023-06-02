@@ -1,9 +1,9 @@
 import React from 'react'
 
 //COMPONENTS 
-import Button from "../components/Button";
-import AdminHero from 'components/admin/AdminHero';
-import AdminOptionsCard from 'components/admin/AdminOptionsCard';
+import Button from "../../components/Button";
+import AdminHero from 'admin/components/AdminHero';
+import AdminOptionsCard from 'admin/components/AdminOptionsCard';
 
 const cardsData = [
   { title: 'Edit institutions', link: '/admin-institutions', image: "images/institution.webp" },
