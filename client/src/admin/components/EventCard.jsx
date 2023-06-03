@@ -1,6 +1,20 @@
+import { useState } from "react";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
+import Button from "../../components/form/Button";
+import axios from "axios";
 
-const EventCard = ({ event }) => {
+const EventCard = ({ event, onDelete }) => {
+  const handleDelete = () => {
+    axios .delete(`http://localhost:3001/api/event/${event._id}`)
+      .then((response) => {
+        console.log("User deleted successfully");
+        onDelete(event._id); 
+      })
+      .catch((error) => {
+        console.error("Error deleting user", error);
+      });
+  };
+
   if (!event) return <div>Loading...</div>;
   return (
     <div className="w-full bg-white flex flex-row justify-between h-20 items-center px-8">
@@ -20,7 +34,7 @@ const EventCard = ({ event }) => {
         <div className="flex flex-col" onClick={() => console.log("edit")}>
           <AiFillEdit size={32} />
         </div>
-        <div className="flex flex-col" onClick={() => console.log("edit")}>
+        <div className="flex flex-col" onClick={handleDelete}>
           <AiFillDelete size={32} />
         </div>
       </div>

@@ -1,4 +1,4 @@
-import AdminHero from "../components/AdminGradient";
+import AdminGradient from "../components/AdminGradient";
 import List from "admin/components/List";
 import EventCard from "admin/components/EventCard";
 import React, { useEffect, useState } from "react";
@@ -11,6 +11,11 @@ const AdminEventView = () => {
     setSearch(
       events.filter((event) => event.title.toLowerCase().includes(value))
     );
+  };
+
+  const handleDelete = (deletedEventId) => {
+    setEvents(events.filter((event) => event._id !== deletedEventId));
+    setSearch(search.filter((event) => event._id !== deletedEventId));
   };
 
   useEffect(() => {
@@ -27,14 +32,15 @@ const AdminEventView = () => {
     };
     fetchInstitution();
   }, []);
+
   if (!events) return <div>Loading...</div>;
   return (
     <>
-      <AdminHero />
+      <AdminGradient />
       <div className="container mx-auto pt-4">
         <List header={"Events"} onType={handleSearch}>
           {search.map((event) => (
-            <EventCard event={event} key={event._id} />
+            <EventCard event={event} key={event._id} onDelete={handleDelete}/>
           ))}
         </List>
       </div>
