@@ -2,6 +2,7 @@ import AdminGradient from "../components/AdminGradient";
 import List from "admin/components/List";
 import UserCard from "admin/components/UserCard";
 import React, { useEffect, useState } from "react";
+import EditUsersModal from "admin/components/modals/EditUsersModal";
 
 const AdminUserView = () => {
   const [users, setUsers] = useState([]);
@@ -35,6 +36,7 @@ const AdminUserView = () => {
   return (
     <>
       <AdminGradient />
+      <EditUsersModal />
       <div className="container mx-auto pt-4">
         <List header={"Users"} onType={handleSearch}>
           {search.map((user) => (
