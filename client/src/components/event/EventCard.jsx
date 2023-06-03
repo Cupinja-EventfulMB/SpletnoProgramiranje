@@ -1,8 +1,10 @@
 import { BsCalendar4Week } from "react-icons/bs";
 import Button from "../form/Button";
+import useEventPopup from "hooks/useEventPopup";
 
 const EventCard = ({ event }) => {
   console.log(event._id);
+  const eventPopup = useEventPopup();
   return (
     <div className="relative shadow-md rounded-2xl w-96 h-36 bg-white hover:shadow-l transition duration-200 group hover:scale-105">
       <img
@@ -24,6 +26,10 @@ const EventCard = ({ event }) => {
           <Button
             title={"Info"}
             small
+            action={() => {
+              eventPopup.setEvent(event);
+              eventPopup.onOpen();
+            }}
           />
         </div>
       </div>
