@@ -5,10 +5,15 @@ import React, { useEffect, useState } from "react";
 
 const AdminUserView = () => {
   const [users, setUsers] = useState([]);
-  const [search, setSearch] = useState(users);
+  const [search, setSearch] = useState([]);
 
   const handleSearch = (value) => {
     setSearch(users.filter((user) => user.name.toLowerCase().includes(value)));
+  };
+
+  const handleDelete = (deletedUserId) => {
+    setUsers(users.filter((user) => user._id !== deletedUserId));
+    setSearch(search.filter((user) => user._id !== deletedUserId));
   };
 
   useEffect(() => {
@@ -24,6 +29,7 @@ const AdminUserView = () => {
     };
     fetchUsers();
   }, []);
+
   if (!users) return <div>Loading...</div>;
 
   return (
@@ -32,7 +38,7 @@ const AdminUserView = () => {
       <div className="container mx-auto pt-4">
         <List header={"Users"} onType={handleSearch}>
           {search.map((user) => (
-            <UserCard user={user} key={user._id} />
+            <UserCard user={user} key={user._id} onDelete={handleDelete} />
           ))}
         </List>
       </div>
