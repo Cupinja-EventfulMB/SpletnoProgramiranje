@@ -31,7 +31,7 @@ const UserSchema = new mongoose.Schema({
 
   dateOfBirth: {
     type: Date,
-    required: false,
+    required: true,
   },
  
   IPaddress: {

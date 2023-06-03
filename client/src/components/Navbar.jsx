@@ -6,6 +6,7 @@ import { logoutSuccess } from "state/authSlice";
 
 //HOOKS
 import useLoginModal from "hooks/useLoginModal";
+import useRegisterModal from "hooks/useRegisterModal";
 
 //COMPONENTS
 import Button from "components/form/Button";
@@ -15,6 +16,7 @@ const Navbar = () => {
   const user = useSelector((state) => state.auth.user);
 
   const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
 
   return (
     <div className="fixed w-full z-50 bg-transparent overflow-y-hidden">
@@ -36,6 +38,7 @@ const Navbar = () => {
           {!user ? (
             <>
               <Button title={"Login"} action={loginModal.onOpen} />
+              <Button title={"Register"} action={registerModal.onOpen} />
             </>
           ) : (
             <>

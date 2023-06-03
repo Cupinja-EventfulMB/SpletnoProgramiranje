@@ -4,7 +4,6 @@ import useLoginModal from "hooks/useLoginModal";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "state/authSlice";
-
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 const commonInputClasses = "border-2 border-gray-300 rounded-md px-6 py-2";
@@ -19,6 +18,7 @@ const LoginModal = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     defaultValues: {
       email: "",
@@ -33,6 +33,7 @@ const LoginModal = () => {
       .then((res) => {
         dispatch(loginSuccess(res.data));
         loginModal.onClose();
+        reset();
       })
       .catch((err) => {
         setError(err.response.data);
@@ -58,6 +59,7 @@ const LoginModal = () => {
             {...register("email", { required: true })}
             type="email"
             className={commonInputClasses}
+            value={register.email || ""} // Add value prop
           />
           {errors.email && <span>This field is required</span>}
         </div>
@@ -67,6 +69,7 @@ const LoginModal = () => {
             {...register("password", { required: true })}
             type="password"
             className={commonInputClasses}
+            value={register.password || ""} // Add value prop
           />
           {errors.password && <span>This field is required</span>}
         </div>
