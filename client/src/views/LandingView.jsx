@@ -7,6 +7,7 @@ import useEventPopup from "hooks/useEventPopup";
 import EventCardContainer from "components/event/EventCardContainer";
 import Gradient from "components/Gradient";
 import Search from "components/Search";
+import LoginModal from "components/modals/LoginModal";
 import EventSideView from "components/event/EventSideView";
 import Map from "components/Map";
 
@@ -42,6 +43,7 @@ const LandingView = ({ socket }) => {
     <>
       <Gradient title={"Welcome to the Events App"}
       subtitle={"Welcome to the Events App"}/>
+      <LoginModal />
       <EventSideView onClose={eventPopup.onClose} isOpen={eventPopup.isOpen} />
       <div className="container mx-auto">
         <Search />
