@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
 
 //HOOKS
-import useEventPpopup from "hooks/useEventPopup";
+import useEventPopup from "hooks/useEventPopup";
 
 //COMPONENTS
 import EventCardContainer from "components/event/EventCardContainer";
 import Gradient from "components/Gradient";
 import Search from "components/Search";
+import LoginModal from "components/modals/LoginModal";
+import RegisterModal from "components/modals/RegisterModal";
+import EventSideView from "components/event/EventSideView";
 import Map from "components/Map";
 
 //REDUX
@@ -15,7 +18,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 
 const LandingView = ({ socket }) => {
-  const eventPopup = useEventPpopup();
+  const eventPopup = useEventPopup();
   const [events, setEvents] = React.useState([]);
 
   useEffect(() => {
@@ -41,6 +44,9 @@ const LandingView = ({ socket }) => {
     <>
       <Gradient title={"Welcome to the Events App"}
       subtitle={"Welcome to the Events App"}/>
+      <RegisterModal />
+      <LoginModal />
+      <EventSideView onClose={eventPopup.onClose} isOpen={eventPopup.isOpen} />
       <div className="container mx-auto">
         <Search />
       </div>

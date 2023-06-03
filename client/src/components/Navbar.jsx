@@ -1,36 +1,49 @@
+//REACT
 import React from "react";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutSuccess } from "state";
+import { logoutSuccess } from "state/authSlice";
+
+//HOOKS
+import useLoginModal from "hooks/useLoginModal";
+import useRegisterModal from "hooks/useRegisterModal";
+
+//COMPONENTS
+import Button from "components/form/Button";
+
 const Navbar = () => {
-  const isLoggedIn = localStorage.getItem("token");
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.token);
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.auth.user);
+
+  const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
 
   return (
-    <div className="fixed w-full z-10 bg-transparent">
+    <div className="fixed w-full z-50 bg-transparent overflow-y-hidden">
       <div className="flex flex-row justify-between px-6 py-4 w-full text-white">
         <div className="flex justify-between gap-4">
-        <Link to="/">
-          <div>Home</div>
-        </Link>
-        
-        {user && user.admin && (
-          <Link to="/admin-dashboard"> <div>Admin Home</div></Link>
-        )}
+          <Link to="/">
+            <div>Home</div>
+          </Link>
 
+          {user && user.admin && (
+            <Link to="/admin-dashboard">
+              {" "}
+              <div>Admin Home</div>
+            </Link>
+          )}
         </div>
 
         <div className="flex justify-between gap-4">
-          {!token ? (
+          {!user ? (
             <>
-              <Link to="/login">Login</Link>
-              <Link to="/register">Register</Link>
+              <Button title={"Login"} action={loginModal.onOpen} />
+              <Button title={"Register"} action={registerModal.onOpen} />
             </>
           ) : (
-            <button onClick={() => dispatch(logoutSuccess())}><Link to="/">Logout</Link></button>
+            <>
+              <button onClick={() => dispatch(logoutSuccess())}> Logout</button>
+            </>
           )}
         </div>
       </div>
