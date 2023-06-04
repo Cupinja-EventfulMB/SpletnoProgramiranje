@@ -2,8 +2,13 @@ import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import Button from "../../components/form/Button";
 import axios from "axios";
 import { useState } from "react";
+import useEditInstitutionsModal from "./hooks/useEditInstitutionsModal";
+import EditInstitutionsModal from "./modals/EditInstitutionsModal";
 
 const InstitutionCard = ({ institution, onDelete }) => {
+  const editInstitutionModal = useEditInstitutionsModal();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleDelete = () => {
     axios .delete(`http://localhost:3001/api/institution/${institution._id}`)
       .then((response) => {
@@ -13,6 +18,11 @@ const InstitutionCard = ({ institution, onDelete }) => {
       .catch((error) => {
         console.error("Error deleting institution", error);
       });
+  };
+
+  const handleEdit = () => {
+    editInstitutionModal.setInstitution(institution); // Set the user being edited
+    setIsModalOpen(true);
   };
 
   if (!institution) return <div>Loading...</div>;
@@ -38,6 +48,13 @@ const InstitutionCard = ({ institution, onDelete }) => {
           <AiFillDelete size={32} />
         </div>
       </div>
+      {isModalOpen && (
+        <EditInstitutionsModal
+          institution={editInstitutionModal.institution}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   );
 };

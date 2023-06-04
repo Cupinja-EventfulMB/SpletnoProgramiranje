@@ -2,6 +2,7 @@ import AdminGradient from "../components/AdminGradient";
 import List from "admin/components/List";
 import InstitutionCard from "admin/components/InstitutionCard";
 import React, { useEffect, useState } from "react";
+import EditInstitutionsModal from "admin/components/modals/EditInstitutionsModal";
 
 const AdminInstitutionView = () => {
   const [institutions, setInstitutions] = useState([]);
@@ -38,10 +39,11 @@ const AdminInstitutionView = () => {
   return (
     <>
       <AdminGradient />
+      <EditInstitutionsModal />
       <div className="container mx-auto pt-4">
         <List header={"Institutions"} onType={handleSearch}>
           {search.map((institution) => (
-            <InstitutionCard institution={institution} key={institution._id} onDelete={handleDelete}/>
+          <InstitutionCard institution={institution} key={institution._id} onDelete={handleDelete}/>
           ))}
         </List>
       </div>
