@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 //HOOKS
 import useEventPopup from "hooks/useEventPopup";
@@ -20,6 +20,26 @@ import axios from "axios";
 const LandingView = ({ socket }) => {
   const eventPopup = useEventPopup();
   const [events, setEvents] = React.useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
+
+
+  
+
+  const handleSearch = (value, dateRange, categories) =>{
+    var filter;
+    
+    filter = events.filter((event) => event.title.toLowerCase().includes(value.toLowerCase()))
+
+    if(dateRange){
+      filter = filter.filter((event)=>{return event.date>=dateRange.min && event.date <= dateRange.max})
+    }
+
+    if(categories.length  != 0){
+      filter = filter.filter((event)=>{return categories.includes(event.category)})
+    }
+    setFilteredEvents(filter)
+    console.log(filteredEvents)
+  }
 
   useEffect(() => {
     axios.get("http://localhost:3001/api/event").then((res) => {
@@ -48,16 +68,17 @@ const LandingView = ({ socket }) => {
       <LoginModal />
       <EventSideView onClose={eventPopup.onClose} isOpen={eventPopup.isOpen} />
       <div className="container mx-auto">
-        <Search />
+        <Search onSearch={handleSearch} />
       </div>
       <div className="container mx-auto h-[600px] flex flex-row py-2">
       <div className="w-4/6 py-1 overflow-y-auto" id="events">
-          <EventCardContainer events={events} max={8} title={"Trending"} />
+        {filteredEvents.length == 0 ? (<><EventCardContainer events={events} max={8} title={"Trending"} />
           <EventCardContainer events={events} max={4} title={"Popular"} />
-          <EventCardContainer events={events} max={4} title={"Other"} />
+          <EventCardContainer events={events} max={4} title={"Other"} /></>) : (<><EventCardContainer events={filteredEvents} max={20} title={"Searched"} /></>)}
+          
         </div>
         <div className="w-2/6 bg-blue-300 sticky outline: sm:hidden md:inline-flex">
-          <Map events={events} />
+          <Map events={filteredEvents} />
         </div>
       </div>
     </>

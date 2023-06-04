@@ -1,7 +1,18 @@
+import { useState } from "react";
 import Button from "./form/Button";
 import { BsFillGridFill, BsCalendar4Week } from "react-icons/bs";
 
-const Search = () => {
+const Search = ({onSearch}) => {
+  const [search, setSearch] = useState("")
+  const [dateRange, setDateRange] = useState(null)
+  const [categories, setCategories] = useState([])
+
+  const handleSearch = () =>{
+    onSearch(search, dateRange, categories)
+  }
+
+  
+
   return (
     <div className="w-full h-16 bg-white rounded-full -translate-y-1/2 shadow-lg">
       <div className="flex flex-row justify-evenly items-center h-full px-4">
@@ -9,6 +20,10 @@ const Search = () => {
           type="text"
           placeholder="Search by name, category, date..."
           className="w-1/2 h-full outline-none rounded-md px-4 py-2 bg-transparent"
+          value={search}
+          onChange={(e)=>{
+            setSearch(e.target.value);
+          }}
         />
         <div className="w-[1px] h-12 bg-gray-200"></div>
         <div className="flex flex-row gap-4 items-center mx-4 h-12">
@@ -34,7 +49,7 @@ const Search = () => {
         </div>
         <div className="w-[1px] h-12 bg-gray-200"></div>
 
-        <Button primary title={"Search"} />
+        <Button primary title={"Search"} action={handleSearch} />
       </div>
     </div>
   );
