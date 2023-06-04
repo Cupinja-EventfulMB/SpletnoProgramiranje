@@ -2,9 +2,11 @@ import AdminGradient from "../components/AdminGradient";
 import List from "admin/components/List";
 import InstitutionCard from "admin/components/InstitutionCard";
 import React, { useEffect, useState } from "react";
-import EditInstitutionsModal from "admin/components/modals/EditInstitutionsModal";
+import useAddInstitutionModal from "admin/components/hooks/useAddInstitution";
+import AddInstitutionModal from "admin/components/modals/AddInstitutionModal";
 
 const AdminInstitutionView = () => {
+  const addInstitutionModal = useAddInstitutionModal();
   const [institutions, setInstitutions] = useState([]);
   const [search, setSearch] = useState(institutions);
 
@@ -39,8 +41,9 @@ const AdminInstitutionView = () => {
   return (
     <>
       <AdminGradient />
+      <AddInstitutionModal />
       <div className="container mx-auto pt-4">
-        <List header={"Institutions"} onType={handleSearch}>
+        <List header={"Institutions"} onType={handleSearch} actionLabel="Add Institution" action={addInstitutionModal.onOpen}>
           {search.map((institution) => (
           <InstitutionCard institution={institution} key={institution._id} onDelete={handleDelete}/>
           ))}
