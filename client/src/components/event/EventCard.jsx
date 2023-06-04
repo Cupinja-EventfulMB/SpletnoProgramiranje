@@ -3,7 +3,6 @@ import Button from "../form/Button";
 import useEventPopup from "hooks/useEventPopup";
 
 const EventCard = ({ event }) => {
-  console.log(event._id);
   const eventPopup = useEventPopup();
   return (
     <div className="relative shadow-md rounded-2xl w-96 h-36 bg-white hover:shadow-l transition duration-200 group hover:scale-105">
