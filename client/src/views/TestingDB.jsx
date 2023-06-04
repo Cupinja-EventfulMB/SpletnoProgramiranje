@@ -32,12 +32,22 @@ const TestingDB = ({socket}) => {
         }).then(res => res.json()).then(body => setEvents(body))
     }, [])
 
+    const [locations, setLocations] = useState([])
+    useEffect(() => {
+        fetch("http://localhost:3001/api/location", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json()).then(body => setLocations(body))
+    }, [])
+
     return (
         <>
             <Gradient/>
             <div className="container mx-auto">
                 <Search/>
-                <MapMaribor/>
+                <MapMaribor locations={locations}/>
                 <EventCardContainer events={events} title={"Trending"}  max={6}/>
                 <EventCardContainer events={events} title={"This month"}  max={6}/>
             </div>
