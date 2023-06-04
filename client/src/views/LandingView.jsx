@@ -30,9 +30,9 @@ const LandingView = ({ socket }) => {
     var filter;
     
     filter = events.filter((event) => event.title.toLowerCase().includes(value.toLowerCase()))
-
-    if(date){
-      filter = filter.filter((event)=>{return event.date==date})
+  
+    if(date != null){
+      filter = filter.filter((event)=>{return event.date.split(",")[0]==date.toLocaleString('en-US').split(",")[0]})
     }
 
     if(category){
@@ -57,7 +57,7 @@ const LandingView = ({ socket }) => {
   useEffect(() => {
     if (socket) {
       socket.on("notification", (data) => {
-        console.log("Received notification:", data.message);
+        //onsole.log("Received notification:", data.message);
         // Display the notification using a library or custom code
       });
 

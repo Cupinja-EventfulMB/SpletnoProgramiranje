@@ -28,6 +28,12 @@ const Search = ({onSearch}) => {
     onSearch(search, date, category)
   }
 
+  const handleClear = () =>{
+    setDate(null);
+    setSearch("");
+    setCategory("Kategorija")
+  }
+
   
 
   return (
@@ -50,27 +56,32 @@ const Search = ({onSearch}) => {
             className="text-rose-500 inline-block ml-4 hover:cursor-pointer"
           />
           {showDatePicker && <DayPicker
+          className="bg-white rounded-md absolute translate-y-[12rem]"
           mode="single"
           selected={date}
-          onSelect={setDate}
+          onSelect={(val)=>{
+            setDate(val);
+            console.log(format(val, "PP"))
+            setShowDatePicker(false)
+          }}
           
           />}
           <p className="inline-block select-none font-semibold text-lg translate-y-[2px]">
-            Date
+            {(date) ? (format(date, "PP")) : <>Date</>}
           </p>
         </div>
         <div className="w-[1px] h-12 bg-gray-200"></div>
         <div className="flex flex-row gap-4 items-center mx-4 h-12">
           <BsFillGridFill
-            onClick={() => console.log("grid")}
+            
             size={36}
-            className="text-rose-500 inline-block ml-4 hover:cursor-pointer"
+            className="text-rose-500 inline-block ml-4"
           />
           <Select options={options} className="" placeholder="Kategorija" onChange={(e)=>{setCategory(e.label)}}/>
           
         </div>
         <div className="w-[1px] h-12 bg-gray-200"></div>
-
+        {(search || date || category) && (<Button title={"Clear"} action={handleClear}/>)}
         <Button primary title={"Search"} action={handleSearch} />
       </div>
       
