@@ -1,56 +1,46 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
-const EventSchema = new mongoose.Schema({
-    name: {
+const EventSchema = new Schema({
+    title: {
       type: String,
       required: true,
-      unique: true,
       min: 3,
       max: 50,
     },
-
-    institution: {
-      type: Schema.Types.ObjectId,
-      ref: "institution",
-      required: false,
+    date: {
+        type: Date,
+        required: true,
     },
-
     location: {
-      type: {
-        type: String,
-        enum: ["Point"],
-        required: false,
-      },
-      coordinates: {
-        type: [Number],
-        required: false,
-      },
+        type: mongoose.Types.ObjectId,
+        ref: "location",
+        required: true,
     },
-
-    images: {
-      type: [String],
+    description: {
+        type: String,
+        required: true,
+    },
+    image: {
+      type: String,
       required: false,
     },
-    
-    description: {
-      type: String,
-      required: true,
-    },
-
     category: {
       type: Array,
       required: false,
     },
-
     going: [{
       type: Schema.Types.ObjectId,
       ref: "users",
+        required: false,
+
     }],
 
     interested: [{
       type: Schema.Types.ObjectId,
       ref: "users",
+        required: false,
+
     }],
 
     duration: {
@@ -63,14 +53,7 @@ const EventSchema = new mongoose.Schema({
       required: false,
     },
 
-    date: {
-      type: Date,
-      required: true,
-    }
-
 });
-
-EventSchema.index({ location: "2dsphere" });
 
 const Event = mongoose.model("Event", EventSchema);
 export default Event;
