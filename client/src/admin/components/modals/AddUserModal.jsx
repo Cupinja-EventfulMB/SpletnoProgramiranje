@@ -51,8 +51,8 @@ const AddUserModal = () => {
       disabled={isLoading}
       isOpen={registerModal.isOpen}
       onClose={registerModal.onClose}
-      title={"Register"}
-      actionLabel={"Register"}
+      title={"Add user"}
+      actionLabel={"Add user"}
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="flex flex-col gap-4">

@@ -3,8 +3,12 @@ import List from "admin/components/List";
 import UserCard from "admin/components/UserCard";
 import React, { useEffect, useState } from "react";
 import AddUserModal from "admin/components/modals/AddUserModal";
+import useRegisterModal from "hooks/useRegisterModal";
 
 const AdminUserView = () => {
+
+  const addUserModal = useRegisterModal();
+
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState([]);
 
@@ -31,17 +35,14 @@ const AdminUserView = () => {
     fetchUsers();
   }, []);
 
-  const addUser = () => {
-    <AddUserModal />
-  };
-
   if (!users) return <div>Loading...</div>;
 
   return (
     <>
       <AdminGradient />
+      <AddUserModal />
       <div className="container mx-auto pt-4">
-        <List header={"Users"} onType={handleSearch} actionLabel="Add User" action={addUser}>
+        <List header={"Users"} onType={handleSearch} actionLabel="Add User" action={addUserModal.onOpen}>
           {search.map((user) => (
             <UserCard user={user} key={user._id} onDelete={handleDelete} />
           ))}
