@@ -84,7 +84,7 @@ const LandingView = ({ socket }) => {
           <EventCardContainer events={events} max={4} title={"Other"} /></>) : (<><EventCardContainer events={filteredEvents} max={20} title={"Searched"} /></>)}
           
         </div>
-        <div className="w-2/6 bg-blue-300 sticky outline: sm:hidden md:inline-flex">
+        <div className="w-2/6 bg-blue-300 sticky outline: sm:hidden md:inline-flex z-0">
           <Map events={filteredEvents} />
         </div>
       </div>

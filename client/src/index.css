@@ -55,3 +55,7 @@ scrollbar-width: none;
 #map{
   z-index: 0;
 }
+
+.leaflet-container{
+  z-index: 0;
+}
