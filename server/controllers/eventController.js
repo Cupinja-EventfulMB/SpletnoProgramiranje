@@ -5,7 +5,7 @@ import Location from "../models/Location.js";
 
 export const getAll = async (req, res) => {
     try {
-        const events = await Event.find();
+        const events = await Event.find().populate('location');
         const localizedEvents = events.map(event => {
             const localizedDate = event.date.toLocaleString();
             return {...event._doc, date: localizedDate};
