@@ -41,7 +41,7 @@ const InstitutionCard = ({ institution, onDelete }) => {
         <img src={institution.image} alt="" />
       </div>
       <div className="flex flex-row cursor-pointer">
-        <div className="flex flex-col" onClick={() => console.log("edit")}>
+        <div className="flex flex-col" onClick={handleEdit}>
           <AiFillEdit size={32} />
         </div>
         <div className="flex flex-col" onClick={handleDelete}>

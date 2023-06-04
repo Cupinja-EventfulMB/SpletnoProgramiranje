@@ -39,7 +39,6 @@ const AdminInstitutionView = () => {
   return (
     <>
       <AdminGradient />
-      <EditInstitutionsModal />
       <div className="container mx-auto pt-4">
         <List header={"Institutions"} onType={handleSearch}>
           {search.map((institution) => (
