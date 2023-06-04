@@ -21,23 +21,30 @@ const LandingView = ({ socket }) => {
   const eventPopup = useEventPopup();
   const [events, setEvents] = React.useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
+  const [searched, setSearched] = useState(false);
 
 
   
 
-  const handleSearch = (value, dateRange, categories) =>{
+  const handleSearch = (value, date, category) =>{
     var filter;
     
     filter = events.filter((event) => event.title.toLowerCase().includes(value.toLowerCase()))
 
-    if(dateRange){
-      filter = filter.filter((event)=>{return event.date>=dateRange.min && event.date <= dateRange.max})
+    if(date){
+      filter = filter.filter((event)=>{return event.date==date})
     }
 
-    if(categories.length  != 0){
-      filter = filter.filter((event)=>{return categories.includes(event.category)})
+    if(category){
+      if(category != "Kategorija")
+      filter = filter.filter((event)=>{return category == event.category})
     }
     setFilteredEvents(filter)
+    setSearched(true)
+    if(searched && filter.length == events.length){
+      setSearched(false);
+    }
+    
     console.log(filteredEvents)
   }
 
@@ -72,7 +79,7 @@ const LandingView = ({ socket }) => {
       </div>
       <div className="container mx-auto h-[600px] flex flex-row py-2">
       <div className="w-4/6 py-1 overflow-y-auto" id="events">
-        {filteredEvents.length == 0 ? (<><EventCardContainer events={events} max={8} title={"Trending"} />
+        {!searched ? (<><EventCardContainer events={events} max={8} title={"Trending"} />
           <EventCardContainer events={events} max={4} title={"Popular"} />
           <EventCardContainer events={events} max={4} title={"Other"} /></>) : (<><EventCardContainer events={filteredEvents} max={20} title={"Searched"} /></>)}
           

@@ -15,6 +15,7 @@ const position = [46.5547, 15.6459];
 
 const Map = ({ events }) => {
   return (
+    
     <MapContainer
       center={position}
       zoom={13}
@@ -33,6 +34,7 @@ const Map = ({ events }) => {
         </Marker>
       ))}
     </MapContainer>
+    
   );
 };
 
