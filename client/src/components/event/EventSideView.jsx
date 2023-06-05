@@ -28,11 +28,11 @@ const EventSideView = ({ isOpen, onClose }) => {
   }, [onClose]);
 
   const handleIsGoing = () => {
-    console.log(user._id);
+    console.log(event._id)
     if (isGoing) {
       axios
         .delete("http://localhost:3001/api/event/going", {
-          eventId: event.id,
+          eventId: event._id,
           userId: user._id,
         })
         .then(() => {
@@ -41,7 +41,7 @@ const EventSideView = ({ isOpen, onClose }) => {
     } else {
       axios
         .post("http://localhost:3001/api/event/going", {
-          eventId: event.id,
+          eventId: event._id,
           userId: user._id,
         })
         .then(() => {

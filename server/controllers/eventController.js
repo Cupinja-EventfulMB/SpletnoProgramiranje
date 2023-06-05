@@ -133,22 +133,23 @@ export const remove = async (req, res) => {
 
 export const going = async (req, res) => {
     const {userId, eventId} = req.body;
-    console.log(userId, eventId);
     try {
         const event = await Event.findById(eventId);
+        const user = await User.findById(userId);
+        if(!user) res.status(404).json({message: "Invalid request"})
         if (event) {
-            event.going.push(userId);
+            event.going.push(user._id);
+            console.log(event)
             await event.save();
 
-            const user = await User.findById(userId);
-            user.going.push(eventId);
+            user.going.push(event._id);
             await user.save();
             res.status(200).json(event);
         } else {
             res.status(404).json({message: "Event not found"});
         }
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
         res.status(409).json({message: error.message});
     }
 };
@@ -173,6 +174,8 @@ export const notGoing = async (req, res) => {
         res.status(409).json({message: error.message});
     }
 };
+
+
 
 export const interested = async (req, res) => {
     const {userId, eventId} = req.body;
