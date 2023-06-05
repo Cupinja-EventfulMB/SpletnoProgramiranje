@@ -9,7 +9,8 @@ const EventSideView = ({ isOpen, onClose }) => {
   const eventPopup = useEventPopup();
   const event = eventPopup.event;
 
-  const user = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth.user);
+  console.log(user)
 
   const [showPopup, setShowPopup] = useState(true);
 
@@ -30,7 +31,7 @@ const EventSideView = ({ isOpen, onClose }) => {
     console.log(user._id);
     if (isGoing) {
       axios
-        .delete("http://localhost:3001/api/events/going", {
+        .delete("http://localhost:3001/api/event/going", {
           eventId: event.id,
           userId: user._id,
         })
@@ -39,7 +40,7 @@ const EventSideView = ({ isOpen, onClose }) => {
         });
     } else {
       axios
-        .post("http://localhost:3001/api/events/going", {
+        .post("http://localhost:3001/api/event/going", {
           eventId: event.id,
           userId: user._id,
         })
@@ -52,7 +53,7 @@ const EventSideView = ({ isOpen, onClose }) => {
   const handleIsInterested = () => {
     if (isGoing) {
       axios
-        .delete("http://localhost:3001/api/events/interested", {
+        .delete("http://localhost:3001/api/event/interested", {
           eventId: event.id,
           userId: user._id,
         })
@@ -61,7 +62,7 @@ const EventSideView = ({ isOpen, onClose }) => {
         });
     } else {
       axios
-        .post("http://localhost:3001/api/events/interested", {
+        .post("http://localhost:3001/api/event/interested", {
           eventId: event.id,
           userId: user._id,
         })

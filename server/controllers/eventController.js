@@ -155,6 +155,7 @@ export const going = async (req, res) => {
 
 export const notGoing = async (req, res) => {
     const {userId, eventId} = req.body;
+    console.log(userId, eventId)
     try {
         const event = await Event.findById(eventId);
         if (event) {
@@ -175,6 +176,7 @@ export const notGoing = async (req, res) => {
 
 export const interested = async (req, res) => {
     const {userId, eventId} = req.body;
+    
     try {
         const event = await Event.findById(eventId);
         if (event) {

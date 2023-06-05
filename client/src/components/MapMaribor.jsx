@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import icon from "leaflet/dist/images/marker-red.png";
+//import icon from "leaflet/dist/images/marker-red.png";
 import shadow from "leaflet/dist/images/marker-shadow.png";
 
 
@@ -23,7 +23,7 @@ const MapMaribor = ({locations}) => {
     const position = [46.5547, 15.6459];
 
     const customMarkerIcon = L.icon({
-        iconUrl: icon,
+        iconUrl: "icon",
         shadowUrl: shadow,
         iconSize: [25, 41],
         iconAnchor: [12.5, 41],
