@@ -1,7 +1,14 @@
 import { Router } from "express";
-import { getAll, create, getOne, update, remove, going, notGoing } from "../controllers/eventController.js";
+import {
+  getAll,
+  create,
+  getOne,
+  update,
+  remove,
+  going,
+  interested,
+} from "../controllers/eventController.js";
 const router = Router();
-
 
 router.get("/", getAll);
 
@@ -9,13 +16,12 @@ router.get("/:id", getOne);
 
 router.post("/", create);
 
-router.put("/:id", update );
+router.put("/:id", update);
 
-router.delete("/:id", remove );
+router.delete("/:id", remove);
 
 router.post("/going", going);
 
-router.delete("/going", notGoing);
-
+router.post("/interested", interested);
 
 export default router;

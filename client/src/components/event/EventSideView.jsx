@@ -4,21 +4,27 @@ import { IoMdClose } from "react-icons/io";
 import Button from "components/form/Button";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import useEvent from "api/useEvent";
 
 const EventSideView = ({ isOpen, onClose }) => {
+  const { toggleGoingEvent, toggleInterestedEvent } = useEvent();
+
   const eventPopup = useEventPopup();
   const event = eventPopup.event;
 
   const user = useSelector((state) => state.auth.user);
-  console.log(user)
 
   const [showPopup, setShowPopup] = useState(true);
 
   const [isGoing, setIsGoing] = useState(false);
+  const [isInterested, setIsInterested] = useState(
+    event ? user.events.interested.includes(event._id) : false
+  );
 
   useEffect(() => {
     setShowPopup(isOpen);
-  }, [isOpen]);
+    setIsGoing(user.events.going.includes(event._id));
+  }, [isOpen, event._id]);
 
   const handleClose = useCallback(() => {
     setShowPopup(false);
@@ -28,48 +34,11 @@ const EventSideView = ({ isOpen, onClose }) => {
   }, [onClose]);
 
   const handleIsGoing = () => {
-    console.log(event._id)
-    if (isGoing) {
-      axios
-        .delete("http://localhost:3001/api/event/going", {
-          eventId: event._id,
-          userId: user._id,
-        })
-        .then(() => {
-          setIsGoing(false);
-        });
-    } else {
-      axios
-        .post("http://localhost:3001/api/event/going", {
-          eventId: event._id,
-          userId: user._id,
-        })
-        .then(() => {
-          setIsGoing(true);
-        });
-    }
+    toggleGoingEvent(event._id, user._id);
   };
 
   const handleIsInterested = () => {
-    if (isGoing) {
-      axios
-        .delete("http://localhost:3001/api/event/interested", {
-          eventId: event.id,
-          userId: user._id,
-        })
-        .then(() => {
-          setIsGoing(false);
-        });
-    } else {
-      axios
-        .post("http://localhost:3001/api/event/interested", {
-          eventId: event.id,
-          userId: user._id,
-        })
-        .then(() => {
-          setIsGoing(true);
-        });
-    }
+    toggleInterestedEvent(event._id, user._id);
   };
 
   if (!isOpen) return null;
@@ -132,7 +101,7 @@ const EventSideView = ({ isOpen, onClose }) => {
               <input
                 type="checkbox"
                 name=""
-                value={isGoing}
+                value={isInterested}
                 onChange={handleIsInterested}
               />
               <label htmlFor="">Interested</label>
