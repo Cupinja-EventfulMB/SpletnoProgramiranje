@@ -30,15 +30,9 @@ const InstitutionSchema = new mongoose.Schema({
     },
 
     location: {
-      type: {
-        type: String,
-        enum: ["Point"],
-        required: true,
-      },
-      coordinates: {
-        type: [Number],
-        required: true,
-      },
+      type: mongoose.Types.ObjectId,
+      ref: "Location",
+      required: true,
     },
 
     mainImage: {
@@ -56,8 +50,6 @@ const InstitutionSchema = new mongoose.Schema({
       required: false,
     },
   });
-  
-  InstitutionSchema.index({ location: "2dsphere" });
   
   const Institution = mongoose.model("Institution", InstitutionSchema);
   export default Institution;  
