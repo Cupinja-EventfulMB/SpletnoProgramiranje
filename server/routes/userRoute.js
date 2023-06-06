@@ -7,6 +7,8 @@ router.get("/", getAll);
 
 router.get("/:id", getOne);
 
+router.get("/:id/events", getUserEvents);
+
 router.post("/", create);
 
 router.put("/:id", update );

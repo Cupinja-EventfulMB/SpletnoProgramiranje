@@ -83,3 +83,20 @@ export const remove = async (req, res) => {
         res.status(409).json({ message: error.message });
     }
 }
+
+export const getUserEvents = async (req, res) => {
+    const { id } = req.params;
+    try {
+      const user = await User.findById(id).populate("events.going events.interested");
+
+      const currentDate = new Date();
+      
+      const goingEvents = user.events.going.filter(event => event.date >= currentDate);
+      const visitedEvents = user.events.going.filter(event => event.date < currentDate);
+      const interestedEvents = user.events.interested;
+      
+      res.status(200).json({ going: goingEvents, visited: visitedEvents, interested: interestedEvents });
+    } catch (error) {
+      res.status(404).json({ message: error.message });
+    }
+  }

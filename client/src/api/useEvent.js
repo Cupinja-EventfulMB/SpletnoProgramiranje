@@ -20,6 +20,7 @@ const getAllEvents = async () => {
   });
 };
 
+
 const toggleGoingEvent = async (eventId, userId) => {
   axios.post(api + "/going", { userId: userId, eventId: eventId });
 };
