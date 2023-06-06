@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import useUser from "api/useUser";
 import Button from "components/form/Button";
 
 import Gradient from "components/Gradient";
+import EventCardContainer from "components/event/EventCardContainer";
 
-const ProfileView = ({userId}) => {
+const ProfileView = () => {
+    const {userId} = useParams()
     const {getUser, getUserEvents} = useUser()
     const [user, setUser] = useState(null);
     const [going, setGoing] = useState(null);
@@ -13,28 +16,36 @@ const ProfileView = ({userId}) => {
 
     useEffect(() =>{
         getUser(userId).then((usr) => {
-            setUser(usr);            
+            setUser(usr); 
+            console.log(usr)           
         })
         getUserEvents(userId).then((events) => {
             setGoing(events.going)
             setInterested(events.interested)
             setVisited(events.visited)
+            console.log(events)
         })
     }, [])
 
-    //TODO server/routes/userRoute.js -> add router.get("/:id/events", getUserEvents)
-    //TODO server/controllers/userController.js -> add getUserEvents() -> (returns {going:{}, interested:{}, visited:{}})
+//TODO 
+    
+//⚠️ TESTING ⚠️
+//test@test.com
+//test
+//api call: http://localhost:3001/user/647df0928280855f4faec661/events
+//TODO add route for ⬇️
+//client side: http://localhost:3000/user/647df0928280855f4faec661
 
-
+    
     return ( 
         <>
             <Gradient title={"Welcome to the Events App"}
             subtitle={"Welcome to the Events App"}
             />
-            <div className="">
-                <div className="">Going events:</div>
-                <div className="">Interested events:</div>
-                <div className="">Recently visited events:</div>
+            <div className="container mx-auto">
+                <EventCardContainer title={"Going"} events={going} />
+                <EventCardContainer title={"Interested"} events={interested} />
+                <EventCardContainer title={"Visited"} events={visited} />
             </div>
             <div className="">
                 <div className="">Activity this year</div>
