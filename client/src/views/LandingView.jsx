@@ -35,9 +35,10 @@ const LandingView = ({ socket }) => {
     );
 
     if (date != null) {
+      
       filter = filter.filter((event) => {
         return (
-          event.date.split(",")[0] == date.toLocaleString("en-US").split(",")[0]
+          event.date.toLocaleString("en-GB").split(",")[0].replaceAll(". ", "/") == date.toLocaleString("en-GB").replace(/\b0/g, "").split(",")[0]
         );
       });
     }

@@ -17,14 +17,11 @@ const EventSideView = ({ isOpen, onClose }) => {
   const [showPopup, setShowPopup] = useState(true);
 
   const [isGoing, setIsGoing] = useState(false);
-  const [isInterested, setIsInterested] = useState(
-    event ? user.events.interested.includes(event._id) : false
-  );
+  const [isInterested, setIsInterested] = useState( false  );
 
   useEffect(() => {
     setShowPopup(isOpen);
-    setIsGoing(user.events.going.includes(event._id));
-  }, [isOpen, event._id]);
+  }, [isOpen]);
 
   const handleClose = useCallback(() => {
     setShowPopup(false);
@@ -61,7 +58,7 @@ const EventSideView = ({ isOpen, onClose }) => {
         onClick={handleClose}
       />
       <img
-        src={event.img_url}
+        src={event.image}
         alt=""
         className="object-cover object-center w-full h-1/4"
       />

@@ -27,7 +27,8 @@ const ProfileView = () => {
         })
     }, [])
 
-//TODO 
+//TODO add link to profile in Navbar
+//TODO click on profile link
     
 //⚠️ TESTING ⚠️
 //test@test.com

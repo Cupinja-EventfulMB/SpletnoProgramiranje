@@ -1,4 +1,5 @@
 import User from '../models/User.js';
+import Event from '../models/Event.js';
 
 export const getAll = async (req, res) => {
     try {
@@ -86,17 +87,44 @@ export const remove = async (req, res) => {
 
 export const getUserEvents = async (req, res) => {
     const { id } = req.params;
+    console.log(id)
     try {
-      const user = await User.findById(id).populate("events.going events.interested");
-
+      const user = await User.findById(id);
       const currentDate = new Date();
-      
-      const goingEvents = user.events.going.filter(event => event.date >= currentDate);
-      const visitedEvents = user.events.going.filter(event => event.date < currentDate);
-      const interestedEvents = user.events.interested;
-      
-      res.status(200).json({ going: goingEvents, visited: visitedEvents, interested: interestedEvents });
+      const going = [];
+      const interested = [];
+  
+      for (const id of user.events.going) {
+        const e = await Event.findById(id);
+        going.push(e);
+      }
+  
+      const getInterested = async () => {
+        for (const id of user.events.interested) {
+          const e = await Event.findById(id);
+          interested.push(e);
+        }
+      };
+  
+      await getInterested();
+  
+      console.log("Going: ", going, "Interested: ", interested);
+  
+      const goingEvents = going.filter((event) => {
+        return event.date >= currentDate;
+      });
+  
+      const visitedEvents = going.filter((event) => {
+        return event.date < currentDate;
+      });
+  
+      console.log("Going: ", goingEvents, "Interested: ", interested);
+  
+      res
+        .status(200)
+        .json({ going: goingEvents, visited: visitedEvents, interested: interested });
     } catch (error) {
       res.status(404).json({ message: error.message });
     }
-  }
+  };
+  

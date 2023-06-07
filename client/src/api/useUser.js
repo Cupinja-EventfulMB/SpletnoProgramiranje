@@ -16,7 +16,7 @@ const getUser = async (id) => {
 
 const getUserEvents = async (userId) => {
     return axios
-    .get(api + "/" + userId + "events")
+    .get(api + "/" + userId + "/events")
     .then((res) => {
         return res.data
     })

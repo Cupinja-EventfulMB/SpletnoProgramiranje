@@ -58,7 +58,7 @@ const MapMaribor = ({locations}) => {
                 let eventTitle = "No event was found"
                 let eventDate = " "
                 if (events != undefined) {
-                    eventTitle = events[0].title
+                    eventTitle = events[0].name
                     eventDate = events[0].date
                 }
                 const formattedEventDate = formatDate(eventDate)
