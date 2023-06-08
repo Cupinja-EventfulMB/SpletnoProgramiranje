@@ -7,7 +7,7 @@ const EventCard = ({ event }) => {
   return (
     <div className="relative shadow-md rounded-2xl w-96 h-36 bg-white hover:shadow-l transition duration-200 group hover:scale-105">
       <img
-        src={event.img_url}
+        src={event.image}
         alt=""
         className="object-cover object-center w-full h-full aboslute rounded-2xl"
       />

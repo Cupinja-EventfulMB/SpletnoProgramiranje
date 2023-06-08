@@ -42,6 +42,9 @@ const Navbar = () => {
             </>
           ) : (
             <>
+            <Link to={`/user/${user._id}`}>
+              <div>Profile</div>
+            </Link>
               <button onClick={() => dispatch(logoutSuccess())}> Logout</button>
             </>
           )}
