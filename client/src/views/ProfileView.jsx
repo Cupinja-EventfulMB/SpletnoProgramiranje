@@ -3,11 +3,14 @@ import { useParams } from "react-router-dom";
 import useUser from "api/useUser";
 import Button from "components/form/Button";
 import * as d3 from "d3"; 
-import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import useEventPopup from "hooks/useEventPopup";
+import useEditUser from "hooks/useEditUser";
+import EditUserModal from "components/modals/EditUserModal";
 
 import Gradient from "components/Gradient";
 import EventCardContainer from "components/event/EventCardContainer";
+import EventSideView from "components/event/EventSideView";
 
 const ProfileView = () => {
   const { userId } = useParams();
@@ -17,6 +20,9 @@ const ProfileView = () => {
   const [interested, setInterested] = useState(null);
   const [visited, setVisited] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const eventPopup = useEventPopup();
+  const editUserModal = useEditUser();
 
   useEffect(() => {
     getUser(userId).then((usr) => {
@@ -156,12 +162,18 @@ const ProfileView = () => {
     }
   }, [going, interested, visited]);   
 
+  const handleEdit = () => {
+    editUserModal.setUser(user); 
+    setIsModalOpen(true);
+  };
+
   return (
     <>
       <Gradient title={"Welcome to the Events App"} subtitle={"Welcome to the Events App"} />
       <div style={{ display: "flex", justifyContent: "flex-end", marginRight: "25px", marginTop: "15px", marginBottom: "5px" }}>
-        <Button primary title="Edit your profile" />
+        <Button primary title="Edit your profile" action={handleEdit}/>
       </div>
+      <EventSideView onClose={eventPopup.onClose} isOpen={eventPopup.isOpen} />
       <div className="flex">
         <div className="w-2/5 ml-20 overflow-y-auto max-h-screen" id="profile-scroll">
           <EventCardContainer title={"Going"} events={going} />
@@ -178,6 +190,13 @@ const ProfileView = () => {
             {/* events this month */}
           </div>
         </div>
+        {isModalOpen && (
+            <EditUserModal
+              user={editUserModal.user}
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+            />
+          )}
       </div>
     </>
   );
