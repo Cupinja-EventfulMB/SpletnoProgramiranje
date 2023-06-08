@@ -1,4 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
+import useEvent from "api/useEvent";
 
 //HOOKS
 import useEventPopup from "hooks/useEventPopup";
@@ -20,17 +22,52 @@ import axios from "axios";
 const LandingView = ({ socket }) => {
   const eventPopup = useEventPopup();
   const [events, setEvents] = React.useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
+  const [searched, setSearched] = useState(false);
+
+  const { getAllEvents } = useEvent();
+
+  const handleSearch = (value, date, category) => {
+    var filter;
+
+    filter = events.filter((event) =>
+      event.title.toLowerCase().includes(value.toLowerCase())
+    );
+
+    if (date != null) {
+      
+      filter = filter.filter((event) => {
+        return (
+          event.date.toLocaleString("en-GB").split(",")[0].replaceAll(". ", "/") == date.toLocaleString("en-GB").replace(/\b0/g, "").split(",")[0]
+        );
+      });
+    }
+
+    if (category) {
+      if (category != "Kategorija")
+        filter = filter.filter((event) => {
+          return category == event.category;
+        });
+    }
+    setFilteredEvents(filter);
+    setSearched(true);
+    if (searched && filter.length == events.length) {
+      setSearched(false);
+    }
+
+    console.log(filteredEvents);
+  };
 
   useEffect(() => {
-    axios.get("http://localhost:3001/api/event").then((res) => {
-      setEvents(res.data);
+    getAllEvents().then((e) => {
+      setEvents(e);
     });
   }, []);
 
   useEffect(() => {
     if (socket) {
       socket.on("notification", (data) => {
-        console.log("Received notification:", data.message);
+        //onsole.log("Received notification:", data.message);
         // Display the notification using a library or custom code
       });
 
@@ -42,22 +79,36 @@ const LandingView = ({ socket }) => {
   }, [socket]);
   return (
     <>
-      <Gradient title={"Welcome to the Events App"}
-      subtitle={"Welcome to the Events App"}/>
+      <Gradient
+        title={"Welcome to the Events App"}
+        subtitle={"Welcome to the Events App"}
+      />
       <RegisterModal />
       <LoginModal />
       <EventSideView onClose={eventPopup.onClose} isOpen={eventPopup.isOpen} />
       <div className="container mx-auto">
-        <Search />
+        <Search onSearch={handleSearch} />
       </div>
       <div className="container mx-auto h-[600px] flex flex-row py-2">
-      <div className="w-4/6 py-1 overflow-y-auto" id="events">
-          <EventCardContainer events={events} max={8} title={"Trending"} />
-          <EventCardContainer events={events} max={4} title={"Popular"} />
-          <EventCardContainer events={events} max={4} title={"Other"} />
+        <div className="w-4/6 py-1 overflow-y-auto" id="events">
+          {!searched ? (
+            <>
+              <EventCardContainer events={events} max={8} title={"Trending"} />
+              <EventCardContainer events={events} max={4} title={"Popular"} />
+              <EventCardContainer events={events} max={4} title={"Other"} />
+            </>
+          ) : (
+            <>
+              <EventCardContainer
+                events={filteredEvents}
+                max={20}
+                title={"Searched"}
+              />
+            </>
+          )}
         </div>
-        <div className="w-2/6 bg-blue-300 sticky outline: sm:hidden md:inline-flex">
-          <Map events={events} />
+        <div className="w-2/6 bg-blue-300 sticky outline: sm:hidden md:inline-flex z-0">
+          <Map events={filteredEvents} />
         </div>
       </div>
     </>

@@ -17,6 +17,7 @@ import AdminEventView from "./admin/views/AdminEventView";
 import AdminInstitutionView from "./admin/views/AdminInstitutionView";
 import AdminUserView from "./admin/views/AdminUserView";
 import TestingDB from "views/TestingDB";
+import ProfileView from "views/ProfileView";
 
 function App() {
   const user = useSelector((state) => state.auth.user);
@@ -51,6 +52,10 @@ function App() {
                 />
                 <Route path="/admin-users" element={<Navigate to="/" />} />
               </>
+            )}
+            
+            {user && (
+              <Route path="/user/:userId" element={<ProfileView />} />
             )}
             <Route path="/test-landing" element={<TestingDB />} />
             <Route path="*" element={<Navigate to="/" />} />

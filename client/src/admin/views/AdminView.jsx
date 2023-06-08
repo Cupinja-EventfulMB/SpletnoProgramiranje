@@ -16,7 +16,7 @@ const AdminView = () => {
   return (
     <>
         <AdminHero />
-        <div className="w-full flex flex-row mt-10 justify-center gap-8">
+        <div className="w-full flex flex-row mt-20 justify-center gap-14">
         {cardsData.map((card, index) => (
           <AdminOptionsCard key={index} title={card.title} link={card.link} image={card.image} />
         ))}

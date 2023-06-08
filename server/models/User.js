@@ -51,12 +51,14 @@ const UserSchema = new mongoose.Schema({
 
   events: {
     going: { 
-      type: Schema.Types.ObjectId,
+      type: [Schema.Types.ObjectId],
       ref: "events",
+      default: []
     },
     interested: { 
-      type: Schema.Types.ObjectId,
+      type: [Schema.Types.ObjectId],
       ref: "events",
+      default: []
     },
   },
 
