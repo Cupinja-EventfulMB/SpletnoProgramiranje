@@ -48,32 +48,32 @@ const MapMaribor = ({locations}) => {
 
 
     return (
-        <MapContainer center={position} zoom={13.5} style={{height: "400px"}}>
-            <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            {locations.map(location => {
-                const events = locationEvents[location._id]
-                let eventTitle = "No event was found"
-                let eventDate = " "
-                if (events != undefined) {
-                    eventTitle = events[0].title
-                    eventDate = events[0].date
-                }
-                const formattedEventDate = formatDate(eventDate)
-                return (
-                    <Marker key={location.id} position={[location.x, location.y]} icon={customMarkerIcon}>
-                        <Popup>
-                            <h2><b>{location.institution}</b></h2>
-                            <p>Event: <b>{eventTitle}</b></p>
-                            <p>Date: <b>{formattedEventDate}</b></p>
-                        </Popup>
-                    </Marker>
-                )
-            })}
+        <MapContainer center={position} zoom={13.5} style={{ height: "400px" }}>
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {locations.map(location => {
+            const events = locationEvents[location._id];
+            let eventTitle = "No event was found";
+            let eventDate = " ";
+            if (events && events.length > 0) {
+              eventTitle = events[0].title;
+              eventDate = events[0].date;
+            }
+            const formattedEventDate = formatDate(eventDate);
+            return (
+              <Marker key={location.id} position={[location.x, location.y]} icon={customMarkerIcon}>
+                <Popup>
+                  <h2><b>{location.institution}</b></h2>
+                  <p>Event: <b>{eventTitle}</b></p>
+                  <p>Date: <b>{formattedEventDate}</b></p>
+                </Popup>
+              </Marker>
+            );
+          })}
         </MapContainer>
-    );
+      );
 };
 
 export default MapMaribor;
