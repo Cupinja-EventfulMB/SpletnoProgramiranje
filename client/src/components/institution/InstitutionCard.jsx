@@ -2,7 +2,7 @@ import Button from "../form/Button";
 
 const InstitutionCard = ({ institution }) => {
   return (
-    <div className="relative shadow-md rounded-2xl w-96 h-36 bg-white hover:shadow-l transition duration-200 group hover:scale-105">
+    <div className="relative shadow-md rounded-2xl w-96 h-52 bg-white hover:shadow-l transition duration-200 group hover:scale-105">
       <img
         src={institution.mainImage}
         alt=""
@@ -16,7 +16,7 @@ const InstitutionCard = ({ institution }) => {
         </div>
         <div className="absolute right-4 top-1/2 -translate-y-1/2">
           <Button
-            title={"Info"}
+            title={"More"}
             small
           />
         </div>

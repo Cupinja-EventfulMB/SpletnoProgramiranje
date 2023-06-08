@@ -25,6 +25,9 @@ const Navbar = () => {
           <Link to="/">
             <div>Home</div>
           </Link>
+          <Link to="/institutions">
+            <div>Institutions</div>
+          </Link>
 
           {user && user.admin && (
             <Link to="/admin-dashboard">
