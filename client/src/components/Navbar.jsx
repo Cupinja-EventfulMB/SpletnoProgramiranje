@@ -1,15 +1,16 @@
-//REACT
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutSuccess } from "state/authSlice";
+import { FaBell } from "react-icons/fa";
 
-//HOOKS
+// HOOKS
 import useLoginModal from "hooks/useLoginModal";
 import useRegisterModal from "hooks/useRegisterModal";
 
-//COMPONENTS
+// COMPONENTS
 import Button from "components/form/Button";
+import Notification from "components/Notification";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -18,8 +19,14 @@ const Navbar = () => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
 
+  const [showNotifications, setShowNotifications] = useState(false);
+
+  const toggleNotifications = () => {
+    setShowNotifications(!showNotifications);
+  };
+
   return (
-    <div className="fixed w-full z-50 bg-transparent overflow-y-hidden">
+    <div className="fixed w-full z-50 bg-transparent select-none">
       <div className="flex flex-row justify-between px-6 py-4 w-full text-white">
         <div className="flex justify-between gap-4">
           <Link to="/">
@@ -28,13 +35,25 @@ const Navbar = () => {
 
           {user && user.admin && (
             <Link to="/admin-dashboard">
-              {" "}
               <div>Admin Home</div>
             </Link>
           )}
         </div>
 
         <div className="flex justify-between gap-4">
+          <div className="relative">
+            <FaBell onClick={toggleNotifications} className="cursor-pointer" />
+            {showNotifications && (
+              <div className="absolute right-0 mt-6 mr-2 bg-white shadow-lg rounded-lg py-2 px-4 z-auto">
+                <Notification
+                  type="friend-request"
+                  message="New friend request"
+                />
+                <Notification type="regular" message="New notification" />
+              </div>
+            )}
+          </div>
+
           {!user ? (
             <>
               <Button title={"Login"} action={loginModal.onOpen} />
@@ -42,10 +61,10 @@ const Navbar = () => {
             </>
           ) : (
             <>
-            <Link to={`/user/${user._id}`}>
-              <div>Profile</div>
-            </Link>
-              <button onClick={() => dispatch(logoutSuccess())}> Logout</button>
+              <Link to={`/user/${user._id}`}>
+                <div>Profile</div>
+              </Link>
+              <button onClick={() => dispatch(logoutSuccess())}>Logout</button>
             </>
           )}
         </div>
