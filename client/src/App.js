@@ -7,6 +7,9 @@ import useSocket from "hooks/useSocket";
 
 //PAGES
 import LandingView from "views/LandingView";
+import ProfileView from "views/ProfileView";
+import InstitutionView from "views/InstitutionView";
+import SingleInstitutionView from "views/SingleInstitutionView";
 
 //COMPONENTS
 import Navbar from "components/Navbar";
@@ -17,7 +20,6 @@ import AdminEventView from "./admin/views/AdminEventView";
 import AdminInstitutionView from "./admin/views/AdminInstitutionView";
 import AdminUserView from "./admin/views/AdminUserView";
 import TestingDB from "views/TestingDB";
-import ProfileView from "views/ProfileView";
 
 function App() {
   const user = useSelector((state) => state.auth.user);
@@ -58,6 +60,8 @@ function App() {
               <Route path="/user/:userId" element={<ProfileView />} />
             )}
             <Route path="/test-landing" element={<TestingDB />} />
+            <Route path="/institutions" element={<InstitutionView />} />
+            <Route path="/institutions/:id" element={<SingleInstitutionView />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
