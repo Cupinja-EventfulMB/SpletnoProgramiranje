@@ -9,6 +9,7 @@ import useSocket from "hooks/useSocket";
 import LandingView from "views/LandingView";
 import ProfileView from "views/ProfileView";
 import InstitutionView from "views/InstitutionView";
+import SingleInstitutionView from "views/SingleInstitutionView";
 
 //COMPONENTS
 import Navbar from "components/Navbar";
@@ -60,6 +61,7 @@ function App() {
             )}
             <Route path="/test-landing" element={<TestingDB />} />
             <Route path="/institutions" element={<InstitutionView />} />
+            <Route path="/institutions/:id" element={<SingleInstitutionView />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>

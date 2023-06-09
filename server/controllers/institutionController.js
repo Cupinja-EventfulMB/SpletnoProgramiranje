@@ -32,13 +32,12 @@ export const getAllNearby = async (req, res) => {
 export const getOne = async (req, res) => {
     const { id } = req.params;
     try {
-        const institution = await Institution.findById(id);
-        res.status(200).json(institution);
+      const institution = await Institution.findById(id).populate('location');
+      res.status(200).json(institution);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
     }
-    catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-}
+  }
 
 export const create = async (req, res) => {
     const {name, email, phoneNumber, address, location, mainImage, images, description} = req.body;
@@ -71,6 +70,21 @@ export const update = async (req, res) => {
         }
     }
     catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+export const getInstitutionEvents = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const institution = await Institution.findById(id);
+        if (institution) {
+            const events = await Event.find({ location: institution.location });
+            res.status(200).json(events);
+        } else {
+            res.status(404).json({ message: 'Institution not found.' });
+        }
+    } catch (error) {
         res.status(500).json({ message: error.message });
     }
 }

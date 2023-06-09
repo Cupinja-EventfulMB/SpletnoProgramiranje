@@ -1,8 +1,10 @@
 import Button from "../form/Button";
+import { Link } from "react-router-dom";
 
 const InstitutionCard = ({ institution }) => {
   return (
     <div className="relative shadow-md rounded-2xl w-96 h-52 bg-white hover:shadow-l transition duration-200 group hover:scale-105">
+      <Link to={`/institutions/${institution._id}`} >
       <img
         src={institution.mainImage}
         alt=""
@@ -21,6 +23,7 @@ const InstitutionCard = ({ institution }) => {
           />
         </div>
       </div>
+      </Link>
     </div>
   );
 };
