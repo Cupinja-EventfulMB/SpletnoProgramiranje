@@ -49,12 +49,14 @@ const TestingDB = ({ socket }) => {
 
   return (
     <>
-      <Gradient />
+      <Gradient 
+      title={"EventfulMB"}
+      subtitle={"Take a look at the events in Maribor"}
+      />
       <div className="container mx-auto">
         <Search />
         <MapMaribor locations={locations} />
-        <EventCardContainer events={events} title={"Trending"} max={6} />
-        <EventCardContainer events={events} title={"This month"} max={6} />
+        <EventCardContainer events={events} title={"All events"} max={9} />
       </div>
     </>
   );

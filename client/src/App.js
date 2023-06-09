@@ -60,7 +60,7 @@ function App() {
             {user && (
               <Route path="/user/:userId" element={<ProfileView />} />
             )}
-            <Route path="/test-landing" element={<TestingDB />} />
+            <Route path="/events" element={<TestingDB />} />
             <Route path="/institutions" element={<InstitutionView />} />
             <Route path="/institutions/:id" element={<SingleInstitutionView />} />
             <Route path="/nearby-events" element={<NearbyEvents /> } />
