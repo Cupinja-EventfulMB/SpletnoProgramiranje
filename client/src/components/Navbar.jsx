@@ -35,6 +35,9 @@ const Navbar = () => {
           <Link to="/institutions">
             <div>Institutions</div>
           </Link>
+          <Link to="/nearby-events">
+            <div>Nearby Events</div>
+          </Link>
 
           {user && user.admin && (
             <Link to="/admin-dashboard">

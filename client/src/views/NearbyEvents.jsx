@@ -19,7 +19,7 @@ import { useSelector } from "react-redux";
 
 import axios from "axios";
 
-const LandingView = ({ socket }) => {
+const NearbyEvents = ({ socket }) => {
   const eventPopup = useEventPopup();
   const [events, setEvents] = React.useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
@@ -116,4 +116,4 @@ const LandingView = ({ socket }) => {
   );
 };
 
-export default LandingView;
+export default NearbyEvents;

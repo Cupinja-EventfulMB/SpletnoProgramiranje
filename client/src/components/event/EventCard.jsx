@@ -19,6 +19,17 @@ const EventCard = ({ event }) => {
             <p className="text-gray-400 text-sm group-hover:text-white">
               {event.date}
             </p>
+            <div className="flex items-center ml-2">
+              {event.category.map((category, index) => (
+                <div
+                  key={index}
+                  className="w-auto h-3 px-2 rounded-full bg-white text-black flex items-center justify-center text-xs font-semibold"
+                  style={{ marginLeft: index !== 0 ? "4px" : "0" }}
+                >
+                  {category}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         <div className="absolute right-4 top-1/2 -translate-y-1/2">

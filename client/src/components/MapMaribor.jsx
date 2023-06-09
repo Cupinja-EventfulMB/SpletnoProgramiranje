@@ -26,7 +26,7 @@ const MapMaribor = ({locations}) => {
     const wPosition = [46.547246, 15.704558];
 
     const customMarkerIcon = L.icon({
-        iconUrl: "icon",
+        iconUrl: icon,
         shadowUrl: shadow,
         iconSize: [25, 41],
         iconAnchor: [12.5, 41],
