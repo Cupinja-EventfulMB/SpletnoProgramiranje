@@ -15,3 +15,4 @@ const InstitutionCardContainer = ({ institutions, title, max }) => {
 };
 
 export default InstitutionCardContainer;
+export default InstitutionCardContainer;
