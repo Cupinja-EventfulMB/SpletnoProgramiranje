@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import InstitutionMap from "./InstitutionMap";
+import EventCardContainer from "components/event/EventCardContainer";
+import { useEffect } from "react";
 
 const InstitutionDetailed = ({ institution }) => {
   const { name, email, phoneNumber, address, location, mainImage, images, description } = institution;
   const [selectedImage, setSelectedImage] = useState(null);
+  const [events, setEvents] = useState([]);
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
@@ -12,6 +15,22 @@ const InstitutionDetailed = ({ institution }) => {
   const handleCloseImage = () => {
     setSelectedImage(null);
   };
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch(`http://localhost:3001/api/institution/${institution._id}/getEvents`);
+        const data = await response.json();
+        console.log(data);
+        setEvents(data.events);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+  
+    fetchEvents();
+  }, [institution._id]);  
+  
 
   return (
     <div className="pt-10 mb-10 mt-5 mx-20 p-10 rounded-lg" style={{ backgroundColor: 'rgb(237,237,237)' }}>
@@ -70,6 +89,9 @@ const InstitutionDetailed = ({ institution }) => {
         <div style={{ height: "300px" }}>
           <InstitutionMap institution={institution} />
         </div>
+      </div>
+      <div >
+        <EventCardContainer events={events} title={"These institution's events"} />
       </div>
     </div>
   );

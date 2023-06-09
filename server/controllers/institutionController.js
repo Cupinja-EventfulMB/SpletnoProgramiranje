@@ -1,4 +1,5 @@
 import Institution from '../models/Institution.js';
+import Event from '../models/Event.js';
 
 export const getAll = async (req, res) => {
     try {
@@ -75,19 +76,31 @@ export const update = async (req, res) => {
 }
 
 export const getInstitutionEvents = async (req, res) => {
-    const { id } = req.params;
     try {
-        const institution = await Institution.findById(id);
-        if (institution) {
-            const events = await Event.find({ location: institution.location });
-            res.status(200).json(events);
-        } else {
-            res.status(404).json({ message: 'Institution not found.' });
-        }
+      const institutionId = req.params.id; // Assuming the institution ID is passed as a parameter
+      
+      // Find the institution by its ID and populate the "location" field
+      const institution = await Institution.findById(institutionId).populate("location");
+      
+      if (!institution) {
+        return res.status(404).json({ message: "Institution not found" });
+      }
+      
+      // Find events where the institution's location matches the event's location
+      const events = await Event.find({ "location": institution.location }).populate("location");
+      
+      const localizedEvents = events.map((event) => {
+        const localizedDate = event.date.toLocaleString();
+        return { ...event._doc, date: localizedDate };
+      });
+      
+      res.status(200).json(localizedEvents);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error.message });
     }
-}
+  };
+  
+  
 
 export const remove = async (req, res) => {
     const { id } = req.params;
