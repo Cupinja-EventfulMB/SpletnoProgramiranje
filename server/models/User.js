@@ -31,7 +31,7 @@ const UserSchema = new mongoose.Schema({
 
   dateOfBirth: {
     type: Date,
-    required: false,
+    required: true,
   },
  
   IPaddress: {
@@ -51,12 +51,14 @@ const UserSchema = new mongoose.Schema({
 
   events: {
     going: { 
-      type: Schema.Types.ObjectId,
+      type: [Schema.Types.ObjectId],
       ref: "events",
+      default: []
     },
     interested: { 
-      type: Schema.Types.ObjectId,
+      type: [Schema.Types.ObjectId],
       ref: "events",
+      default: []
     },
   },
 
