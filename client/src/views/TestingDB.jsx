@@ -1,36 +1,51 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 //COMPONENTS
-import Button from "../components/Button";
-import EventCardContainer from "components/EventCardContainer";
+import Button from "components/form/Button";
+import EventCardContainer from "components/event/EventCardContainer";
 import Gradient from "components/Gradient";
 import Search from "components/Search";
-import MapMaribor from "components/MapMaribor"
+import MapMaribor from "components/MapMaribor";
+import useEvent from "api/useEvent";
 
-const LandingView = ({socket}) => {
-    const [events, setEvents] = useState([])
-    useEffect(() => {
-        if (socket) {
-            socket.on("notification", (data) => {
-                console.log("Received notification:", data.message);
-                // Display the notification using a library or custom code
-            });
+const TestingDB = ({ socket }) => {
+  const [events, setEvents] = useState([]);
+  useEffect(() => {
+    if (socket) {
+      socket.on("notification", (data) => {
+        console.log("Received notification:", data.message);
+        // Display the notification using a library or custom code
+      });
 
-            // Cleanup when the component is unmounted
-            return () => {
-                socket.off("notification");
-            };
-        }
-    }, [socket]);
+      // Cleanup when the component is unmounted
+      return () => {
+        socket.off("notification");
+      };
+    }
+  }, [socket]);
 
-    useEffect(() => {
-        fetch('http://localhost:3001/api/event', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json()).then(body => setEvents(body))
-    }, [])
+  useEffect(() => {
+    fetch("http://localhost:3001/api/event", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((body) => setEvents(body));
+  }, []);
+
+  const [locations, setLocations] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:3001/api/location", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((body) => setLocations(body));
+  }, []);
 
   return (
     <>
@@ -47,4 +62,4 @@ const LandingView = ({socket}) => {
   );
 };
 
-export default LandingView;
+export default TestingDB;

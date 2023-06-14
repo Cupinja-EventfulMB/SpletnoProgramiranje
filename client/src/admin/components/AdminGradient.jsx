@@ -1,13 +1,13 @@
-const AdminHero = () => {
+const AdminGradient = () => {
     //gradient
     return (
       <div
         className={`
       w-full
-      h-[300px]
+      h-[230px]
       bg-gradient-to-r
-      from-violet-600
-      to-amber-500
+      from-fuchsia-700
+      to-teal-400
     `}
       >
         <div className="flex flex-col justify-center h-full mx-40">
@@ -20,5 +20,5 @@ const AdminHero = () => {
     );
   };
   
-  export default AdminHero;
+  export default AdminGradient;
   

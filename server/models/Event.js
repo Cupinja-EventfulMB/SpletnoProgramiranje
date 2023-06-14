@@ -1,22 +1,62 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
-import Location from "./Location.js";
 
-const EventSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true,
+const EventSchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+    min: 3,
+    max: 50,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
+  location: {
+    type: mongoose.Types.ObjectId,
+    ref: "Location",
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+    required: false,
+  },
+  category: {
+    type: Array,
+    required: false,
+  },
+  going: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+      required: false,
+      default: [],
     },
-    date: {
-        type: Date,
-        required: true,
+  ],
+
+  interested: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+      required: false,
+      default: [],
     },
-    location: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Location'
-    }
+  ],
+
+  duration: {
+    type: Number,
+    required: false,
+  },
+
+  ticketPrice: {
+    type: Number,
+    required: false,
+  },
 });
-
 
 const Event = mongoose.model("Event", EventSchema);
 export default Event;

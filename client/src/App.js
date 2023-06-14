@@ -1,7 +1,5 @@
+//REACT
 import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
-import LandingPage from "views/LandingView";
-import LoginPage from "views/LoginView";
-import RegisterPage from "views/RegisterView";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
@@ -17,15 +15,15 @@ import NearbyEvents from "views/NearbyEvents";
 //COMPONENTS
 import Navbar from "components/Navbar";
 import TestComponent from "components/Test";
-import React, { useEffect, useState } from "react";
-import io from "socket.io-client";
-import  useSocket from "hooks/useSocket";
-import Button from "components/Button";
+import Modal from "components/modals/Modal";
+import AdminView from "./admin/views/AdminView";
+import AdminEventView from "./admin/views/AdminEventView";
+import AdminInstitutionView from "./admin/views/AdminInstitutionView";
+import AdminUserView from "./admin/views/AdminUserView";
 import TestingDB from "views/TestingDB";
 
 function App() {
-  const user = useSelector((state) => state.user);
-  const token = useSelector((state) => state.token);
+  const user = useSelector((state) => state.auth.user);
 
   const socket = useSocket("http://localhost:3002");
 

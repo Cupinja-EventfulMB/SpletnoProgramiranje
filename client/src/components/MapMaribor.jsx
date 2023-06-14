@@ -1,8 +1,10 @@
-import React, {useEffect} from 'react';
-import L from 'leaflet';
-import {MapContainer, Marker, Pane, Popup, Rectangle, TileLayer} from "react-leaflet";
-import {render} from "react-dom/profiling";
+import React, {useEffect, useState} from 'react';
+import {MapContainer, Marker, Popup, TileLayer} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+import icon from 'leaflet/dist/images/marker-red.png';
+import shadow from 'leaflet/dist/images/marker-shadow.png';
+import weatherIcon from 'leaflet/dist/images/marker-weather.jpg';
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -78,14 +80,52 @@ const MapMaribor = ({locations}) => {
 
 
     return (
-        <MapContainer center={position} zoom={13.5} style={{height: "450px"}}>
+        <MapContainer center={position} zoom={13.5} style={{height: '400px'}}>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            {locations.map((location) => {
+                const events = locationEvents[location._id];
+                let eventTitle = 'No event was found';
+                let eventDate = '';
+                if (events && events.length > 0) {
+                    eventTitle = events[0].title;
+                    eventDate = events[0].date;
+                }
+                const formattedEventDate = formatDate(eventDate);
+                return (
+                    <Marker key={location.id} position={[location.x, location.y]} icon={customMarkerIcon}>
+                        <Popup>
+                            <h2>
+                                <b>{location.institution}</b>
+                            </h2>
+                            <p>Event: <b>{eventTitle}</b></p>
+                            <p>Date: <b>{formattedEventDate}</b></p>
+                        </Popup>
+                    </Marker>
+                );
+            })}
+            <Marker position={wPosition} icon={markerIconWeather} style={fixedMarkerStyle}>
+                <Popup>
+                    <h2>
+                        <b>Weather in Maribor</b>
+                    </h2>
+                    <p>
+                        {weather && weather.DailyForecasts && weather.DailyForecasts.length > 0 && (
+                            <>
+                                Min Temp: {Math.round(((weather.DailyForecasts[0].Temperature.Minimum.Value - 32) * 5) / 9)}°C
+                                <br />
+                                Max Temp: {Math.round(((weather.DailyForecasts[0].Temperature.Maximum.Value - 32) * 5) / 9)}°C
+                                <br />
+                                More Info: {weather.Headline.Text}
+                            </>
+                        )}
+                    </p>
+                </Popup>
+            </Marker>
         </MapContainer>
     );
-
 };
-
 
 export default MapMaribor;

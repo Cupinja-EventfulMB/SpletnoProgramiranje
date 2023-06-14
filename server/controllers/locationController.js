@@ -20,6 +20,15 @@ export const getOne = async (req, res) => {
     }
 }
 
+export const getEventsByLocation = async (req, res) => {
+    try {
+        const events = await Event.find({"location": req.params.id})
+        res.status(200).json(events);
+    } catch (error) {
+        res.status(404).json({message: error.message});
+    }
+}
+
 export const create = async (req, res) => {
     const { institution, city, street } = req.body;
     const location = { institution, city, street };
