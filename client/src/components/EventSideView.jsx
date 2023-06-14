@@ -1,23 +1,19 @@
 import useEventPopup from "hooks/useEventPopup";
 import React, { useCallback, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import Button from "components/form/Button";
+import Button from "components/Button";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import useEvent from "api/useEvent";
 
 const EventSideView = ({ isOpen, onClose }) => {
-  const { toggleGoingEvent, toggleInterestedEvent } = useEvent();
-
   const eventPopup = useEventPopup();
   const event = eventPopup.event;
 
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.auth);
 
   const [showPopup, setShowPopup] = useState(true);
 
   const [isGoing, setIsGoing] = useState(false);
-  const [isInterested, setIsInterested] = useState( false  );
 
   useEffect(() => {
     setShowPopup(isOpen);
@@ -31,23 +27,58 @@ const EventSideView = ({ isOpen, onClose }) => {
   }, [onClose]);
 
   const handleIsGoing = () => {
-    toggleGoingEvent(event._id, user._id);
+    console.log(user._id);
+    if (isGoing) {
+      axios
+        .delete("http://localhost:3001/api/events/going", {
+          eventId: event.id,
+          userId: user._id,
+        })
+        .then(() => {
+          setIsGoing(false);
+        });
+    } else {
+      axios
+        .post("http://localhost:3001/api/events/going", {
+          eventId: event.id,
+          userId: user._id,
+        })
+        .then(() => {
+          setIsGoing(true);
+        });
+    }
   };
 
   const handleIsInterested = () => {
-    toggleInterestedEvent(event._id, user._id);
+    if (isGoing) {
+      axios
+        .delete("http://localhost:3001/api/events/interested", {
+          eventId: event.id,
+          userId: user._id,
+        })
+        .then(() => {
+          setIsGoing(false);
+        });
+    } else {
+      axios
+        .post("http://localhost:3001/api/events/interested", {
+          eventId: event.id,
+          userId: user._id,
+        })
+        .then(() => {
+          setIsGoing(true);
+        });
+    }
   };
 
   if (!isOpen) return null;
 
   return (
     <div
-      id="sideview"
       className={`
     fixed right-0 top-0 h-full w-2/6 bg-white z-50 flex flex-col shadow-lg
     translate
     duration-300
-    overflow-y-auto
     ${showPopup ? "translate-x-0" : "translate-x-full"}
     ${showPopup ? "opacity-100" : "opacity-0"}
     `}
@@ -58,7 +89,7 @@ const EventSideView = ({ isOpen, onClose }) => {
         onClick={handleClose}
       />
       <img
-        src={event.image}
+        src="https://content.eventim.com/static/uploaded/at/p/b/h/g/pbhg_960_360.webp"
         alt=""
         className="object-cover object-center w-full h-1/4"
       />
@@ -67,7 +98,7 @@ const EventSideView = ({ isOpen, onClose }) => {
         <div className="flex flex-col gap-2">
           <div className="flex flex-row gap-2">
             <p className="font-semibold">Date:</p>
-            <p>{event.date}</p>
+            <p>3 May 2023</p>
           </div>
           <div className="flex flex-row gap-2">
             <p className="font-semibold">Time:</p>
@@ -77,10 +108,25 @@ const EventSideView = ({ isOpen, onClose }) => {
             <p className="font-semibold">Location:</p>
             <p>Maribor</p>
           </div>
+          <div className="flex flex-row gap-2">
+            <p className="font-semibold">Price:</p>
+            <p>20€</p>
+          </div>
         </div>
         <div className="flex flex-col gap-2">
           <p className="font-semibold">Description:</p>
-          <p>{event.description}</p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+            voluptatum, quibusdam, quia, quae voluptates voluptate quod
+            voluptatibus quos doloribus quas fugit. Quisquam voluptatum,
+            quibusdam, quia, quae voluptates voluptate quod voluptatibus quos
+            doloribus quas fugit. Quisquam voluptatum, quibusdam, quia, quae
+            voluptates voluptate quod voluptatibus quos doloribus quas fugit.
+            Quisquam voluptatum, quibusdam, quia, quae voluptates voluptate quod
+            voluptatibus quos doloribus quas fugit. Quisquam voluptatum,
+            quibusdam, quia, quae voluptates voluptate quod voluptatibus quos
+            doloribus quas fugit. Quisquam voluptatum, quibusdam, quia, quae
+          </p>
         </div>
         {user && (
           <>
@@ -98,7 +144,7 @@ const EventSideView = ({ isOpen, onClose }) => {
               <input
                 type="checkbox"
                 name=""
-                value={isInterested}
+                value={isGoing}
                 onChange={handleIsInterested}
               />
               <label htmlFor="">Interested</label>

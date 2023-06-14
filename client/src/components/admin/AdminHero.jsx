@@ -1,24 +1,24 @@
-const Gradient = () => {
+const AdminHero = () => {
     //gradient
     return (
       <div
         className={`
       w-full
-      h-[400px]
+      h-[300px]
       bg-gradient-to-r
-      from-violet-800
-      to-amber-600
-      
+      from-violet-600
+      to-amber-500
     `}
       >
         <div className="flex flex-col justify-center h-full mx-40">
           <h1 className="text-4xl font-semibold text-white">
-            EventfulMB
+            Hello admin of EventfulMB!
           </h1>
-          <p className="text-white text-lg">Find the best events in Maribor for you...</p>
+          <p className="text-white text-lg">Make this page even better!</p>
         </div>
       </div>
     );
   };
   
-export default Gradient;  
+  export default AdminHero;
+  

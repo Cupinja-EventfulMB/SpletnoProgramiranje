@@ -1,4 +1,4 @@
-import Button from "components/form/Button";
+import Button from "components/Button";
 import Form from "components/form/Form";
 
 const RegisterPage = () => {

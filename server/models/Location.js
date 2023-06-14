@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
-const LocationSchema = new Schema({
+const LocationSchema = new mongoose.Schema({
     institution: {
         type: String,
         required: true,
+        unique: true,
     },
     city: {
         type: String,
@@ -14,14 +15,6 @@ const LocationSchema = new Schema({
         type: String,
         required: true,
     },
-    x: {
-        type: Number,
-        required: true,
-    },
-    y: {
-        type: Number,
-        required: true,
-    }
 });
 
 const Location = mongoose.model("Location", LocationSchema);

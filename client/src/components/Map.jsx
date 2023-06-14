@@ -15,29 +15,24 @@ const position = [46.5547, 15.6459];
 
 const Map = ({ events }) => {
   return (
-    
-    
-      <MapContainer
-      id="map"
-        center={position}
-        zoom={13}
-        scrollWheelZoom={true}
-        style={{ height: "100%", width: "100%", zIndex: 1 }}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {events.map((event) => (
-          <Marker position={[46.5547, 15.6459]}>
-            <Popup>
-              <h3>{event.name}</h3>
-            </Popup>
-          </Marker>
-        ))}
-      </MapContainer>
-
-    
+    <MapContainer
+      center={position}
+      zoom={13}
+      scrollWheelZoom={true}
+      style={{ height: "100%", width: "100%" }}
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      {events.map((event) => (
+        <Marker position={[event.location.lat, event.location.lng]}>
+          <Popup>
+            <h3>{event.name}</h3>
+          </Popup>
+        </Marker>
+      ))}
+    </MapContainer>
   );
 };
 
