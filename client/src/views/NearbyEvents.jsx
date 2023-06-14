@@ -1,53 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
+import useEvent from "api/useEvent";
 
 //HOOKS
 import useEventPopup from "hooks/useEventPopup";
 
 //COMPONENTS
-import EventCardContainer from "components/EventCardContainer";
+import EventCardContainer from "components/event/EventCardContainer";
 import Gradient from "components/Gradient";
 import Search from "components/Search";
-import EventSideView from "components/EventSideView";
+import LoginModal from "components/modals/LoginModal";
+import RegisterModal from "components/modals/RegisterModal";
+import EventSideView from "components/event/EventSideView";
+import Map from "components/Map";
 
-const events = [
-  {
-    _id: "6468c08ca8f43c689aa7262b",
-    name: "Event 1",
-    date: "3 May 2023",
-    image:
-      "https://content.eventim.com/static/uploaded/at/p/b/h/g/pbhg_960_360.webp",
-  },
-  {
-    _id: 2,
-    name: "Event 2",
-    date: "8 May 2023",
-    image:
-      "https://content.eventim.com/static/uploaded/at/x/i/x/u/xixu_960_360.webp",
-  },
-  {
-    _id: 3,
-    name: "Event 3",
-    date: "10 May 2023",
-    image:
-      "https://content.eventim.com/static/uploaded/at/p/b/h/g/pbhg_960_360.webp",
-  },
-  {
-    _id: 4,
-    name: "Event 4",
-    date: "12 May 2023",
-    image:
-      "https://content.eventim.com/static/uploaded/at/x/i/x/u/xixu_960_360.webp",
-  },
-  {
-    _id: 5,
-    name: "Event 5",
-    date: "15 May 2023",
-    image:
-      "https://content.eventim.com/static/uploaded/at/p/b/h/g/pbhg_960_360.webp",
-  },
-];
+//REDUX
+import { useSelector } from "react-redux";
 
-const LandingView = ({ socket }) => {
+import axios from "axios";
+
+const NearbyEvents = ({ socket }) => {
   const eventPopup = useEventPopup();
   const [events, setEvents] = React.useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
@@ -95,7 +67,7 @@ const LandingView = ({ socket }) => {
   useEffect(() => {
     if (socket) {
       socket.on("notification", (data) => {
-        console.log("Received notification:", data.message);
+        //onsole.log("Received notification:", data.message);
         // Display the notification using a library or custom code
       });
 
@@ -144,4 +116,4 @@ const LandingView = ({ socket }) => {
   );
 };
 
-export default LandingView;
+export default NearbyEvents;

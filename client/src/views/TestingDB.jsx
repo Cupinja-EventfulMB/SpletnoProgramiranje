@@ -32,18 +32,19 @@ const LandingView = ({socket}) => {
         }).then(res => res.json()).then(body => setEvents(body))
     }, [])
 
-    return (
-        <>
-            <Gradient/>
-            <div className="container mx-auto">
-                <Search/>
-                <MapMaribor/>
-                <EventCardContainer events={events} title={"Trending"}/>
-                <EventCardContainer events={events} title={"Today in Maribor"}/>
-                <EventCardContainer events={events} title={"Upcoming"}/>
-            </div>
-        </>
-    );
+  return (
+    <>
+      <Gradient 
+      title={"EventfulMB"}
+      subtitle={"Take a look at the events in Maribor"}
+      />
+      <div className="container mx-auto">
+        <Search />
+        <MapMaribor locations={locations} />
+        <EventCardContainer events={events} title={"All events"} max={9} />
+      </div>
+    </>
+  );
 };
 
 export default LandingView;

@@ -4,8 +4,79 @@ import {MapContainer, Marker, Pane, Popup, Rectangle, TileLayer} from "react-lea
 import {render} from "react-dom/profiling";
 import 'leaflet/dist/leaflet.css';
 
-const MapMaribor = ({event}) => {
-    const position = [46.5547, 15.6459]
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const formattedDate = `${day}.${month}.${year} ${hours}:${minutes}`;
+
+    return formattedDate;
+};
+
+const MapMaribor = ({locations}) => {
+    const [locationEvents, setLocationEvents] = useState({});
+    // const [weatherIcon, setWeatherIcon] = useState('');
+
+    const position = [46.5547, 15.6459];
+    const wPosition = [46.547246, 15.704558];
+
+    const customMarkerIcon = L.icon({
+        iconUrl: icon,
+        shadowUrl: shadow,
+        iconSize: [25, 41],
+        iconAnchor: [12.5, 41],
+    });
+
+    const fixedMarkerStyle = {
+        position: 'absolute',
+        top: '10px',
+        left: '10px',
+    };
+
+    const markerIconWeather = L.icon({
+            iconUrl: weatherIcon,
+            iconSize: [80,80],
+        }
+    );
+
+    useEffect(() => {
+        const locEventsMap = {};
+        locations.forEach((location) => {
+            fetch(`http://localhost:3001/api/location/events/${location._id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then((res) => res.json())
+                .then((body) => {
+                    locEventsMap[location._id] = body;
+                    setLocationEvents(locEventsMap);
+                });
+        });
+    }, [locations]);
+
+    const [weather, setWeather] = useState({});
+
+    useEffect(() => {
+        const weatherApi = 'http://dataservice.accuweather.com/forecasts/v1/daily/1day/299438?apikey=TtGavgOdqpTVaVorZkKbvYg7IlykiGbT'
+
+        fetch(`https://cors-anywhere.herokuapp.com/` + weatherApi, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((res) => res.json())
+            .then((body) => {
+                setWeather(body); // Update the weather state
+            });
+    }, []);
+
+
     return (
         <MapContainer center={position} zoom={13.5} style={{height: "450px"}}>
             <TileLayer
