@@ -1,6 +1,7 @@
 import EventCard from "./EventCard";
 const EventCardContainer = ({ events, title, max }) => {
-  if (!events) return <div>No events</div>;
+  console.log(events);
+  if (!events || events.length == 0) return <div>No events</div>;
   return (
     <>
       <h1 className="text-2xl font-semibold py-4">{title}</h1>

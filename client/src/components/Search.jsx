@@ -31,9 +31,9 @@ const Search = ({onSearch}) => {
   }
 
   return (
-    <div className="w-full h-16 bg-white rounded-full -translate-y-1/2 shadow-lg z-90 relative">
+    <div className="w-full h-16 bg-white rounded-full -translate-y-1/2 shadow-lg z-40 relative">
       {showDatePicker && (
-        <div className="absolute top-[-120%] left-1/2 transform -translate-x-1/2">
+        <div className="z-50 absolute top-[-120%] left-1/2 transform -translate-x-1/2" >
           <DayPicker
             className="bg-white rounded-md"
             mode="single"
@@ -57,15 +57,15 @@ const Search = ({onSearch}) => {
           }}
         />
         <div className="w-[1px] h-12 bg-gray-200"></div>
-        <div className="flex flex-row gap-4 items-center mx-4 h-12">
+        
+        <div className="justify-start flex flex-row gap-4 items-center mx-4 h-12">
           <BsCalendar4Week
             onClick={() => {setShowDatePicker(!showDatePicker)}}
             size={36}
             className="text-rose-500 inline-block ml-4 hover:cursor-pointer"
           />
-          <p className="absolute top-0 select-none font-semibold text-lg -translate-y-full">
-            {(date) ? (format(date, "PP")) : <>Date</>}
-          </p>
+          
+
         </div>
         <div className="w-[1px] h-12 bg-gray-200"></div>
         <div className="flex flex-row gap-4 items-center mx-4 h-12">

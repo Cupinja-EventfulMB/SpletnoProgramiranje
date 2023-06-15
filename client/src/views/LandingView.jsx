@@ -77,6 +77,18 @@ const LandingView = ({ socket }) => {
       };
     }
   }, [socket]);
+
+  const [locations, setLocations] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:3001/api/location", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((body) => setLocations(body));
+  }, []);
   
   return (
     <>
@@ -109,7 +121,7 @@ const LandingView = ({ socket }) => {
           )}
         </div>
         <div className="w-2/6 bg-blue-300 sticky outline: sm:hidden md:inline-flex z-0">
-          <Map events={filteredEvents} />
+          <Map locations={locations} events={filteredEvents} />
         </div>
       </div>
     </>

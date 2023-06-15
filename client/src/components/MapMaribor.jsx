@@ -2,9 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {MapContainer, Marker, Popup, TileLayer} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import icon from 'leaflet/dist/images/marker-red.png';
 import shadow from 'leaflet/dist/images/marker-shadow.png';
-import weatherIcon from 'leaflet/dist/images/marker-weather.jpg';
+
+
+const icon = '/images/marker-red.png';
+const weatherIcon = '/images/marker-weather.jpg';
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);

@@ -1,19 +1,23 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
-import icon from "leaflet/dist/images/marker-icon.png";
-import iconShadow from "leaflet/dist/images/marker-shadow.png";
+import shadow from 'leaflet/dist/images/marker-shadow.png';
 
-let DefaultIcon = L.icon({
-  iconUrl: icon,
-  shadowUrl: iconShadow,
-});
 
-L.Marker.prototype.options.icon = DefaultIcon;
+const icon = '/images/marker-red.png';
+const weatherIcon = '/images/marker-weather.jpg';
 
 //coordinates of Maribor
 const position = [46.5547, 15.6459];
 
-const Map = ({ events }) => {
+const Map = ({ locations }) => {
+const customMarkerIcon = L.icon({
+        iconUrl: icon,
+        shadowUrl: shadow,
+        iconSize: [25, 41],
+        iconAnchor: [12.5, 41],
+    });
+
+
   return (
     
     
@@ -28,13 +32,18 @@ const Map = ({ events }) => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {events.map((event) => (
-          <Marker position={[event.location.x, event.location.y]}>
-            <Popup>
-              <h3>{event.name}</h3>
-            </Popup>
-          </Marker>
-        ))}
+        {locations.map((location) => {
+
+                return (
+                    <Marker key={location.id} position={[location.x, location.y]} icon={customMarkerIcon}>
+                        <Popup>
+                            <h2>
+                                <b>{location.institution}</b>
+                            </h2>
+                        </Popup>
+                    </Marker>
+                );
+            })}
       </MapContainer>
 
     

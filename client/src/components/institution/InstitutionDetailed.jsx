@@ -22,7 +22,7 @@ const InstitutionDetailed = ({ institution }) => {
         const response = await fetch(`http://localhost:3001/api/institution/${institution._id}/getEvents`);
         const data = await response.json();
         console.log(data);
-        setEvents(data.events || []); // Access the events array inside the data object
+        setEvents(data || []); // Access the events array inside the data object
       } catch (error) {
         console.error("Error fetching events:", error);
       }
