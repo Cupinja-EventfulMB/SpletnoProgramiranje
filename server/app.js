@@ -11,10 +11,11 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import mqtt from "mqtt";
 import axios from 'axios';
+import fs from 'fs';
 
 //CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url);
-const __diraname = path.dirname(__filename);
+const __dirname = path.dirname(__filename);
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -25,7 +26,7 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 //app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(express.json());
 //app.use(cors());
-app.use("/assets", express.static(path.join(__diraname, "public/assets")));
+app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
 
 // SOCKET.IO
@@ -85,6 +86,7 @@ app.use("/api/message", messageRoute);
 
 const publisher = mqtt.connect('mqtt://localhost:1883');
 const subscriber = mqtt.connect('mqtt://localhost:1883');
+const subscriberImage = mqtt.connect('mqtt://localhost:1883');
 
 publisher.on('connect', () => {
   console.log('Publisher connected to broker');
@@ -136,6 +138,47 @@ subscriber.on('connect', () => {
 subscriber.on('error', (error) => {
   console.error('Error with MQTT connection:', error);
 });
+
+const imagesDirectory = path.join(__dirname, 'images');
+
+if (!fs.existsSync(imagesDirectory)) {
+  fs.mkdirSync(imagesDirectory);
+}
+
+subscriberImage.on('connect', () => {
+  console.log('SubscriberImage connected to broker');
+  subscriberImage.subscribe('send/image');
+
+  subscriberImage.on('message', (topic, message) => {
+    console.log(`Received image message on topic ${topic}`);
+
+    const imageData = JSON.parse(message.toString());
+
+    const buffer = Buffer.from(imageData.image, 'base64');
+
+    const filename = `image-${Date.now()}.jpg`;
+    const filePath = path.join(imagesDirectory, filename);
+
+    fs.writeFile(filePath, buffer, (err) => {
+      if (err) {
+        console.error('Error writing the image file:', err);
+      } else {
+        console.log(`Image saved successfully as ${filename}`);
+      }
+    });
+
+    const location = { latitude: imageData.latitude, longitude: imageData.longitude };
+    const timestamp = imageData.time;
+
+    console.log("newImage", { filename, location, timestamp });
+  });
+});
+
+subscriberImage.on('error', (error) => {
+  console.error('Error with MQTT connection for subscriberImage:', error);
+});
+
+
 
 
 export default app;
