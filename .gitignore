@@ -4,7 +4,8 @@ server/.env
 client/node_modules
 client/.pnp
 client/.pnp.js
- 
+server/alogrithm_URVRV/*.weights
+
 client/coverage
 
 client/build

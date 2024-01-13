@@ -12,6 +12,7 @@ import { Server } from "socket.io";
 import mqtt from "mqtt";
 import axios from 'axios';
 import fs from 'fs';
+import { spawn } from 'child_process';
 
 //CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url);
@@ -35,35 +36,35 @@ const io = new Server(httpServer, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
-    }
-  });
+  }
+});
 
-  
+
 io.on("connection", (socket) => {
   console.log("New client connected");
 
- 
-    socket.emit("notification", { message: "Hello from the server 😉" });
 
-    socket.on("disconnect", () => {
-      console.log("Client disconnected");
-    });
+  socket.emit("notification", { message: "Hello from the server 😉" });
+
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+  });
 });
 
 const PORT = process.env.PORT || 6001;
-httpServer.listen(3002, () => console.log(`Server Port: 3002`));  
+httpServer.listen(3002, () => console.log(`Server Port: 3002`));
 
 //MOONGOOSE
 
 mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
-  })
-  .catch((err) => console.log(`${err} did not connect`));
+    .connect(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(() => {
+      app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+    })
+    .catch((err) => console.log(`${err} did not connect`));
 
 //ROUTING
 import authRoute from "./routes/authRoute.js";
@@ -113,7 +114,7 @@ subscriber.on('connect', () => {
 
   subscriber.on('message', async (topic, message) => {
     console.log(`Received message on topic ${topic}: ${message.toString()}`);
-    
+
     const receivedData = JSON.parse(message.toString());
 
     const formattedData = {
@@ -145,6 +146,7 @@ if (!fs.existsSync(imagesDirectory)) {
   fs.mkdirSync(imagesDirectory);
 }
 
+// URVRV ALGORITHM AND RECIEVEING A IMG
 subscriberImage.on('connect', () => {
   console.log('SubscriberImage connected to broker');
   subscriberImage.subscribe('send/image');
@@ -164,6 +166,27 @@ subscriberImage.on('connect', () => {
         console.error('Error writing the image file:', err);
       } else {
         console.log(`Image saved successfully as ${filename}`);
+
+        const pythonScriptPath = path.join(__dirname, 'algorithm_URVRV/main.py');
+        const pythonProcess = spawn('python3', [pythonScriptPath, filePath]);
+
+        let data = ''; // Define data in the scope of the event handlers
+
+        pythonProcess.stdout.on('data', (data) => {
+          console.log(`Python script output: ${data}`);
+        });
+
+        pythonProcess.stderr.on('data', (data) => {
+          console.error(`Error from Python script: ${data}`);
+        });
+
+        pythonProcess.on('close', (code) => {
+          console.log(`Python script exited with code ${code}`);
+          // Publish the number of people detected to an MQTT topic
+          const numPeople = fs.readFileSync("numberPeople.txt")
+          publisher.publish('people_decetion', `${numPeople}`);
+          console.log(`Published: ${numPeople} people detected`);
+        });
       }
     });
 
@@ -177,8 +200,6 @@ subscriberImage.on('connect', () => {
 subscriberImage.on('error', (error) => {
   console.error('Error with MQTT connection for subscriberImage:', error);
 });
-
-
 
 
 export default app;
