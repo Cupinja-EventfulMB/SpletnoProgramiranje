@@ -5,8 +5,7 @@ import sys
 
 def detect_people(file_path: str):
     # YOLO model
-    net = cv2.dnn.readNet("algorithm_URVRV/yolov3.weights", "algorithm_URVRV/yolov3.cfg")
-
+    net = cv2.dnn.readNet("algorithm_URVRV/yolov3.weights", "algorithm_URVRV/yolov3.cfg") # todo add yolov3.weights in algorithm_URVRV
     image = cv2.imread(file_path)
 
     if image is None:
