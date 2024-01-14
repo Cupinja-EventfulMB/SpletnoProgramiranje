@@ -91,22 +91,7 @@ const subscriberImage = mqtt.connect('mqtt://localhost:1883');
 
 publisher.on('connect', () => {
   console.log('Publisher connected to broker');
-
-  const publishMessage = () => {
-    const message = `Hello, MQTT! - ${new Date()}`;
-    publisher.publish('your/topic', message);
-    console.log(`Published: ${message}`);
-  };
-
-  const intervalId = setInterval(publishMessage, 60000);
-
-  setTimeout(() => {
-    clearInterval(intervalId);
-    publisher.end();
-    console.log('Publisher stopped after 5 minutes');
-  }, 300000);
 });
-
 
 subscriber.on('connect', () => {
   console.log('Subscriber connected to broker');
@@ -184,7 +169,7 @@ subscriberImage.on('connect', () => {
           console.log(`Python script exited with code ${code}`);
           // Publish the number of people detected to an MQTT topic
           const numPeople = fs.readFileSync("numberPeople.txt")
-          publisher.publish('people_decetion', `${numPeople}`);
+          publisher.publish('people/detection', `${numPeople}`);
           console.log(`Published: ${numPeople} people detected`);
         });
       }
