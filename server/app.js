@@ -91,7 +91,13 @@ const subscriberImage = mqtt.connect('mqtt://localhost:1883');
 
 publisher.on('connect', () => {
   console.log('Publisher connected to broker');
+
+  setTimeout(() => {
+    publisher.end();
+    console.log('Publisher stopped after 10 minutes');
+  }, 600000);
 });
+
 
 subscriber.on('connect', () => {
   console.log('Subscriber connected to broker');
@@ -167,11 +173,20 @@ subscriberImage.on('connect', () => {
 
         pythonProcess.on('close', (code) => {
           console.log(`Python script exited with code ${code}`);
+
           // Publish the number of people detected to an MQTT topic
-          const numPeople = fs.readFileSync("numberPeople.txt")
-          publisher.publish('people/detection', `${numPeople}`);
+          const numPeople = parseInt(fs.readFileSync("numberPeople.txt"), 10);
+
+          if (numPeople > 10)
+            publisher.publish('people/detection', "It is crowded");
+          else if (numPeople == 0)
+            publisher.publish('people/detection', "There are no people");
+          else
+            publisher.publish('people/detection', "It is not crowded");
+
           console.log(`Published: ${numPeople} people detected`);
         });
+
       }
     });
 
