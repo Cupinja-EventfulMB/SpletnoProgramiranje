@@ -13,6 +13,7 @@ import mqtt from "mqtt";
 import axios from 'axios';
 import fs from 'fs';
 import { spawn } from 'child_process';
+import UserLocation from './models/UserLocation.js';
 
 //CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url);
@@ -44,7 +45,7 @@ io.on("connection", (socket) => {
   console.log("New client connected");
 
 
-  socket.emit("notification", { message: "Hello from the server 😉" });
+  socket.emit("notification", { message: "Hello from the server " });
 
   socket.on("disconnect", () => {
     console.log("Client disconnected");
@@ -88,6 +89,7 @@ app.use("/api/message", messageRoute);
 const publisher = mqtt.connect('mqtt://localhost:1883');
 const subscriber = mqtt.connect('mqtt://localhost:1883');
 const subscriberImage = mqtt.connect('mqtt://localhost:1883');
+const locationUpdated = mqtt.connect('mqtt://localhost:1883')
 
 publisher.on('connect', () => {
   console.log('Publisher connected to broker');
@@ -201,5 +203,60 @@ subscriberImage.on('error', (error) => {
   console.error('Error with MQTT connection for subscriberImage:', error);
 });
 
+// Location
+function parseBufferData(buffer) {
+  let data = buffer.toString();
+  data = data.replace(/{/, '');
+  data = data.replace(/}/, '');
+  const dataParts = data.split(',');
+  const object = {};
+  dataParts.forEach(part => {
+    part = part.split(':')
+    const field = part[0].replaceAll('"', '');
+    if (part[1].startsWith('"')) {
+      object[`${field}`] = part[1].replaceAll('"', "");
+    } else {
+      object[`${field}`] = 1.0 * part[1];
+    }
+  });
+  return object;
+}
+
+locationUpdated.on('connect', () => {
+  console.log('LocationUpdated connected to broker');
+  locationUpdated.subscribe('send/location');
+
+  locationUpdated.on('message', async (topic, userLocation) => {
+
+    userLocation = parseBufferData(userLocation);
+    try {
+      const result = await UserLocation.findOne({ uuid: userLocation["UUID"] });
+
+      if (result) {
+        // Update
+        await UserLocation.updateOne({ uuid: userLocation["UUID"] }, {
+          location: {
+            coordiantes: [ userLocation["latitude"], userLocation["longitude"] ]
+          }
+        });
+        console.log(`Updated user location for UUID ${userLocation["UUID"]}`);
+      } else {
+        // Create
+        await UserLocation.create({
+          uuid: userLocation["UUID"],
+          location: {
+            type: "Point",
+            coordinates: [ userLocation["latitude"], userLocation["longitude"] ],
+          }
+        });
+        console.log(`Created new user location for UUID ${userLocation["UUID"]}`);
+      }
+
+      console.log(`Received message on topic ${topic}: ${userLocation.toString()}`);
+    } catch (error) {
+      console.error('Error processing location update:', error);
+    }
+  });
+});
 
 export default app;
