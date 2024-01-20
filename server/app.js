@@ -238,7 +238,8 @@ locationUpdated.on('connect', () => {
         // Update
         await UserLocation.updateOne({ uuid: userLocation["UUID"] }, {
           location: {
-            coordiantes: [ userLocation["latitude"], userLocation["longitude"] ]
+            type: "Point",
+            coordinates: [ userLocation["latitude"], userLocation["longitude"] ],
           }
         });
         console.log(`Updated user location for UUID ${userLocation["UUID"]}`);
