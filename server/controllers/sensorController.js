@@ -1,4 +1,5 @@
 import Sensor from '../models/Sensor.js'; 
+import { publishToLutkovno, publishToSNG } from '../app.js';
 
 export const getOne = async (req, res) => {
   try {
@@ -25,6 +26,13 @@ export const create = async (req, res) => {
   try {
     const newSensor = new Sensor(req.body);
     const savedSensor = await newSensor.save();
+
+    if (newSensor.value >= 100 && (newSensor.location.address === ('Slovensko narodno gledalisce Maribor' || 'Slovensko narodno gledalisce Maribor '))) {
+      publishToSNG("More than 100 people spotted at SNG");
+    } else if (newSensor.value >= 100 && (newSensor.location.address === ('Lutkovno gledalisce Maribor' || 'Lutkovno gledalisce Maribor '))) {
+      publishToLutkovno("More than 100 people spotted at Lutkovno");
+    }
+
     res.status(201).json(savedSensor);
   } catch (error) {
     res.status(400).json({ sensor: error.message });

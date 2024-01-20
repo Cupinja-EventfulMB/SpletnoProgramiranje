@@ -93,6 +93,8 @@ const subscriber = mqtt.connect('mqtt://localhost:1883');
 const subscriberImage = mqtt.connect('mqtt://localhost:1883');
 const locationUpdated = mqtt.connect('mqtt://localhost:1883');
 const subscriberSensor = mqtt.connect('mqtt://localhost:1883');
+const sngPublisher = mqtt.connect('mqtt://localhost:1883');
+const lutkovnoPublisher = mqtt.connect('mqtt://localhost:1883');
 
 publisher.on('connect', () => {
   console.log('Publisher connected to broker');
@@ -294,5 +296,25 @@ subscriberSensor.on('connect', () => {
 subscriberSensor.on('error', (error) => {
   console.error('Error with MQTT connection:', error);
 });
+
+const publishToSNG = (message) => {
+  if (sngPublisher.connected) {
+    sngPublisher.publish('alert/SNG', message);
+    console.log("Published message to SNG:", message);
+  } else {
+    console.error('MQTT Publisher is not connected');
+  }
+};
+
+const publishToLutkovno = (message) => {
+  if (sngPublisher.connected) {
+    sngPublisher.publish('alert/Lutkovno', message);
+    console.log("Published message to Lutkovno:", message);
+  } else {
+    console.error('MQTT Publisher is not connected');
+  }
+};
+
+export { publishToSNG, publishToLutkovno };
 
 export default app;
