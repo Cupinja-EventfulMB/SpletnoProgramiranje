@@ -75,6 +75,7 @@ import institutionRoute from "./routes/institutionRoute.js";
 import userRoute from "./routes/userRoute.js";
 import geoqueriesRoute from "./routes/geoqueries.js";
 import messageRoute from "./routes/messageRoute.js";
+import sensorRoute from "./routes/sensorRoute.js";
 
 app.use("/api/auth", authRoute);
 app.use("/api/event", eventRoute);
@@ -83,13 +84,15 @@ app.use("/api/institution", institutionRoute);
 app.use("/api/user", userRoute);
 app.use("/api/geoqueries", geoqueriesRoute);
 app.use("/api/message", messageRoute);
+app.use("/api/sensor", sensorRoute);
 
 // MQTT connection
 
 const publisher = mqtt.connect('mqtt://localhost:1883');
 const subscriber = mqtt.connect('mqtt://localhost:1883');
 const subscriberImage = mqtt.connect('mqtt://localhost:1883');
-const locationUpdated = mqtt.connect('mqtt://localhost:1883')
+const locationUpdated = mqtt.connect('mqtt://localhost:1883');
+const subscriberSensor = mqtt.connect('mqtt://localhost:1883');
 
 publisher.on('connect', () => {
   console.log('Publisher connected to broker');
@@ -99,7 +102,6 @@ publisher.on('connect', () => {
     console.log('Publisher stopped after 10 minutes');
   }, 600000);
 });
-
 
 subscriber.on('connect', () => {
   console.log('Subscriber connected to broker');
@@ -139,7 +141,7 @@ if (!fs.existsSync(imagesDirectory)) {
   fs.mkdirSync(imagesDirectory);
 }
 
-// URVRV ALGORITHM AND RECIEVEING A IMG
+// URVRV ALGORITHM AND RECEIVING A IMG
 subscriberImage.on('connect', () => {
   console.log('SubscriberImage connected to broker');
   subscriberImage.subscribe('send/image');
@@ -257,6 +259,39 @@ locationUpdated.on('connect', () => {
       console.error('Error processing location update:', error);
     }
   });
+});
+
+subscriberSensor.on('connect', () => {
+  console.log('Subscriber connected to broker');
+  subscriberSensor.subscribe('send/sensor');
+
+  subscriberSensor.on('message', async (topic, message) => {
+    console.log(`Received message on topic ${topic}: ${message.toString()}`);
+
+    const receivedData = JSON.parse(message.toString());
+
+    const formattedData = {
+      category: receivedData.category,
+      location: {
+        type: "Point",
+        coordinates: [receivedData.longitude, receivedData.latitude],
+        address: receivedData.location 
+      },
+      time: new Date(receivedData.time).toISOString(), 
+      value: receivedData.value
+    };
+
+    try {
+      const response = await axios.post('http://localhost:3001/api/sensor', formattedData);
+      console.log('Sensor data sent to API:', response.data);
+    } catch (error) {
+      console.error('Error sending sensor data to API:', error);
+    }
+  });
+});
+
+subscriberSensor.on('error', (error) => {
+  console.error('Error with MQTT connection:', error);
 });
 
 export default app;
