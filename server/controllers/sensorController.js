@@ -27,9 +27,9 @@ export const create = async (req, res) => {
     const newSensor = new Sensor(req.body);
     const savedSensor = await newSensor.save();
 
-    if (newSensor.value >= 100 && (newSensor.location.address === ('Slovensko narodno gledalisce Maribor' || 'Slovensko narodno gledalisce Maribor '))) {
+    if (newSensor.value >= 100 && (newSensor.location.address === ('Slovensko narodno gledalisce Maribor' || 'Slovensko narodno gledalisce Maribor ')) && newSensor.category === 'People') {
       publishToSNG("More than 100 people spotted at SNG");
-    } else if (newSensor.value >= 100 && (newSensor.location.address === ('Lutkovno gledalisce Maribor' || 'Lutkovno gledalisce Maribor '))) {
+    } else if (newSensor.value >= 100 && (newSensor.location.address === ('Lutkovno gledalisce Maribor' || 'Lutkovno gledalisce Maribor ')) && newSensor.category === 'People') {
       publishToLutkovno("More than 100 people spotted at Lutkovno");
     }
 

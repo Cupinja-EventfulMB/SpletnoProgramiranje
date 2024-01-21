@@ -98,11 +98,6 @@ const lutkovnoPublisher = mqtt.connect('mqtt://localhost:1883');
 
 publisher.on('connect', () => {
   console.log('Publisher connected to broker');
-
-  setTimeout(() => {
-    publisher.end();
-    console.log('Publisher stopped after 10 minutes');
-  }, 600000);
 });
 
 subscriber.on('connect', () => {
@@ -183,12 +178,17 @@ subscriberImage.on('connect', () => {
           // Publish the number of people detected to an MQTT topic
           const numPeople = parseInt(fs.readFileSync("numberPeople.txt"), 10);
 
-          if (numPeople > 10)
+          if (numPeople > 10) {
             publisher.publish('people/detection', "It is crowded");
+            const location = { latitude: imageData.latitude, longitude: imageData.longitude };
+            postDataToBlockchain(numPeople, location);
+          }
           else if (numPeople == 0)
             publisher.publish('people/detection', "There are no people");
-          else
+          else {
+            postDataToBlockchain(numPeople, location);
             publisher.publish('people/detection', "It is not crowded");
+          }
 
           console.log(`Published: ${numPeople} people detected`);
         });
@@ -314,6 +314,21 @@ const publishToLutkovno = (message) => {
     console.error('MQTT Publisher is not connected');
   }
 };
+
+const postDataToBlockchain = async (numPeople, location) => {
+  const blockchainData = {
+    port: 8000, 
+    data: `Number of people detected: ${numPeople}, Location: Latitude: ${location.latitude}, Longitude: ${location.longitude}`
+  };
+
+  try {
+    const response = await axios.post('http://192.168.0.100:5002/mine_block', blockchainData);
+    console.log('Data sent to blockchain:', response.data);
+  } catch (error) {
+    console.error('Error sending data to blockchain:', error);
+  }
+};
+
 
 export { publishToSNG, publishToLutkovno };
 
